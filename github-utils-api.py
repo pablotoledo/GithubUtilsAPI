@@ -1,12 +1,13 @@
 # coding=utf-8
 import requests
 import base64
+import json
 
 class GithubUtilsApi:
     '''
     GithubUtilsClass, created to let other scripts to automate DevOps HelpDesk Support
     '''
-    def __init__(self, user, token, github_url="https://api.github.com/", proxies={}):
+    def __init__(self, user, token, github_url="https://api.github.com", proxies={}):
         '''
         Contructor
         :params user: string; user account at github (email)
@@ -16,7 +17,7 @@ class GithubUtilsApi:
         '''
         self.github_url = github_url
         self.__user = user
-        self.__auth = "Basic "+ str(base64.b64encode(str(user+":"+token).encode('ascii')))
+        self.__auth = "Basic "+ str(base64.b64encode(str(user+":"+token).encode('ascii')), "utf-8")
         self.proxies = proxies
 
     def __request(self, type, url, data):
@@ -27,7 +28,8 @@ class GithubUtilsApi:
             'accept': 'application/vnd.github.v3+json',
             'Authorization': self.__auth
         }
-        return requests.request(type, url, headers=headers, data=data, proxies=self.proxies)
+        body = json.dumps(data)
+        return requests.request(type, url, headers=headers, data=body, proxies=self.proxies)
         
 
     def repository_org_create(self, organization_name=None, repository_name=None):
@@ -40,7 +42,7 @@ class GithubUtilsApi:
         '''
         params = {}
         if repository_name:
-            params['repository_name'] = repository_name
+            params['name'] = repository_name
         url = self.github_url + "/orgs/" + organization_name + "/repos"
         return self.__request("POST", url, params)
 
@@ -62,19 +64,35 @@ class GithubUtilsApi:
         return self.__request("PUT", url, params)
 
 
-    def team_create(self, organization_name=None, team_slug_name=None):
+    def team_create(self, organization_name=None, team_slug_name=None, team_privacy="closed"):
         '''
         This method allows to create a GitHub Team in a defined Github Organization
         According API docs: https://docs.github.com/en/rest/reference/teams#create-a-team
         :param organization_name: string; name of the current organization created at github
         :param team_slug_name: string; Github Team slug name
+        :param team_privacy: string; options available -> "secret" (only member) or "closed" all organizational members
         :return: request
         '''
         params = {}
         if team_slug_name:
             params['name'] = team_slug_name
+        if team_privacy:
+            params['privacy'] = team_privacy
         url = self.github_url + "/orgs/" + organization_name + "/teams"
         self.__request("POST", url, params)
 
-    #def team_grant_user()
-    #https://docs.github.com/en/rest/reference/teams#add-or-update-team-membership-for-a-user
+    def team_grant_user(self, organization_name=None, team_slug_name=None, github_username=None, team_role="member"):
+        '''
+        This method allows to grant a user in a GitHub organization Team  
+        According API docs: https://docs.github.com/en/rest/reference/teams#add-or-update-team-membership-for-a-user
+        :param organization_name: string; name of the current organization created at github
+        :param team_slug_name: string; Github Team slug name
+        :param github_username: string; Github Username
+        :param team_role: values-> member or maintainer
+        :return: request
+        '''
+        params = {}
+        if team_role:
+            params['role'] = team_role
+        url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
+        return self.__request("PUT", url, params)
