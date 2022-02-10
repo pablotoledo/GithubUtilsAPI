@@ -96,3 +96,16 @@ class GithubUtilsApi:
             params['role'] = team_role
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
         return self.__request("PUT", url, params)
+
+    def team_remove_user(self, organization_name=None, team_slug_name=None, github_username=None):
+        '''
+        This method allows to remove a user in a GitHub organization Team  
+        According API docs: https://docs.github.com/en/rest/reference/teams#remove-team-membership-for-a-user
+        :param organization_name: string; name of the current organization created at github
+        :param team_slug_name: string; Github Team slug name
+        :param github_username: string; Github Username
+        :return: request
+        '''
+        params = {}
+        url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
+        return self.__request("DELETE", url, params)
