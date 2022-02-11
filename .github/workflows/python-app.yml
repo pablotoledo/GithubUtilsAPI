@@ -24,7 +24,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel
-        pip install bumpversion twine
+        pip install bump2version twine
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
@@ -35,7 +35,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Bump version
       run: |
-        bumpversion --current-version 0.0.0 minor setup.py
+        echo "current_version=$(grep '# version' version.md | cut -d ' ' -f3)" >> $GITHUB_ENV
+        bumpversion --current-version ${{ env.current_version }} minor setup.py
     - name: Generating Artifacts
       run: |
         python setup.py sdist bdist_wheel
