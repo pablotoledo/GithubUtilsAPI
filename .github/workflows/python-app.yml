@@ -36,6 +36,7 @@ jobs:
     - name: Bump version
       run: |
         echo "current_version=$(grep 'version=' setup.py   | awk -v FS='"' '{print $2}')" >> $GITHUB_ENV
+        echo ${{ env.current_version }}
         bumpversion --current-version ${{ env.current_version }} minor setup.py
     - name: Generating Artifacts
       run: |
