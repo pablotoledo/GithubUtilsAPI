@@ -35,9 +35,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Bump version
       run: |
-        echo "VERSION=$(grep 'version=' setup.py   | awk -v FS='"' '{print $2}')" >> $GITHUB_ENV
-        echo ${{ env.GITHUB_SHA_SHORT }}
-        bumpversion --current-version $(grep 'version=' setup.py   | awk -v FS='"' '{print $2}') minor setup.py
+        bumpversion --current-version $(curl -Lsk https://pypi.org/pypi/github-utils-api/json | jq -r .info.version) minor setup.py
+        #bumpversion --current-version $(grep 'version=' setup.py   | awk -v FS='"' '{print $2}') minor setup.py
     - name: Generating Artifacts
       run: |
         python setup.py sdist bdist_wheel
