@@ -37,7 +37,7 @@ jobs:
       run: |
         echo "VERSION=$(grep 'version=' setup.py   | awk -v FS='"' '{print $2}')" >> $GITHUB_ENV
         echo ${{ env.GITHUB_SHA_SHORT }}
-        bumpversion --current-version ${{ env.current_version }} minor setup.py
+        bumpversion --current-version $(grep 'version=' setup.py   | awk -v FS='"' '{print $2}') minor setup.py
     - name: Generating Artifacts
       run: |
         python setup.py sdist bdist_wheel
