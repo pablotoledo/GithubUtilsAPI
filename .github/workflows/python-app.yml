@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install setuptools wheel twine
+        pip install setuptools wheel twine bump2version
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
@@ -36,6 +36,7 @@ jobs:
       run: |
         sed "s/version.*/version='$(curl -Lsk https://pypi.org/pypi/github-utils-api/json | jq -r .info.version)',/" setup.py > setup.py2
         mv setup.py2 setup.py
+        bumpversion --current-version $(grep 'version=' setup.py   | awk -v FS='"' '{print $2}') minor setup.py
     - name: Generating Artifacts
       run: |
         python setup.py sdist bdist_wheel
