@@ -36,10 +36,6 @@ jobs:
       run: |
         sed "s/version.*/version='$(curl -Lsk https://pypi.org/pypi/github-utils-api/json | jq -r .info.version)',/" setup.py > setup.py2
         mv setup.py2 setup.py
-        cat setup.py
-        grep 'version=' setup.py   | awk -v FS="'" '{print $2}'
-    - name: Bump version2
-      run: |
         bump2version --allow-dirty --current-version $(grep 'version=' setup.py   | awk -v FS="'" '{print $2}') minor setup.py
     - name: Generating Artifacts
       run: |
@@ -47,20 +43,12 @@ jobs:
     - name: pypi-publish
       uses: pypa/gh-action-pypi-publish@v1.5.0
       with:
-        # PyPI user
-        #user: # optional, default is __token__
-        # Password for your PyPI user or an access token
         password: ${{ secrets.PYPI_API_TOKEN }}
-        # The repository URL to use
-        #repository_url: # optional
-        # The target directory for distribution
-        #packages_dir: # optional, default is dist
-        # Check metadata before uploading
-        #verify_metadata: # optional, default is true
-        # Do not fail if a Python package distribution exists in the target package index
-        #skip_existing: # optional
-        # Show verbose output.
-        #verbose: # optional
-        # Show hash values of files to be uploaded
-        #print_hash: # optional
       if: github.event_name != 'pull_request'
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        path: dist/
+      if: github.event_name != 'pull_request'
+
