@@ -36,6 +36,10 @@ jobs:
       run: |
         sed "s/version.*/version='$(curl -Lsk https://pypi.org/pypi/github-utils-api/json | jq -r .info.version)',/" setup.py > setup.py2
         mv setup.py2 setup.py
+        cat setup.py
+        grep 'version=' setup.py   | awk -v FS="'" '{print $2}'
+    - name: Bump version2
+      run: |
         bump2version --allow-dirty --current-version $(grep 'version=' setup.py   | awk -v FS="'" '{print $2}') minor setup.py
     - name: Generating Artifacts
       run: |
