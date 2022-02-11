@@ -35,7 +35,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Bump version
       run: |
-        echo "current_version=$(grep '# version' version.md | cut -d ' ' -f3)" >> $GITHUB_ENV
+        echo "current_version=$(grep 'version=' setup.py   | awk -v FS='"' '{print $2}')" >> $GITHUB_ENV
         bumpversion --current-version ${{ env.current_version }} minor setup.py
     - name: Generating Artifacts
       run: |
