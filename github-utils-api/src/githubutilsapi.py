@@ -17,8 +17,9 @@ class GithubUtilsApi:
         '''
         self.github_url = github_url
         self.__user = user
-        self.__auth = "Basic "+ str(base64.b64encode(str(user+":"+token).encode('ascii')), "utf-8",verify=verify)
+        self.__auth = "Basic "+ str(base64.b64encode(str(user+":"+token).encode('ascii')), "utf-8")
         self.proxies = proxies
+        self.verify=verify
 
     def __request(self, type, url, data):
         '''
@@ -29,7 +30,7 @@ class GithubUtilsApi:
             'Authorization': self.__auth
         }
         body = json.dumps(data)
-        return requests.request(type, url, headers=headers, data=body, proxies=self.proxies)
+        return requests.request(type, url, headers=headers, data=body, proxies=self.proxies, verify=self.verify)
         
 
     def repository_org_create(self, organization_name=None, repository_name=None):
