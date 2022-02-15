@@ -7,7 +7,7 @@ class GithubUtilsApi:
     '''
     GithubUtilsClass, created to let other scripts to automate DevOps HelpDesk Support
     '''
-    def __init__(self, user, token, github_url="https://api.github.com", proxies={}):
+    def __init__(self, user, token, github_url="https://api.github.com", proxies={}, verify=True):
         '''
         Contructor
         :params user: string; user account at github (email)
@@ -17,7 +17,7 @@ class GithubUtilsApi:
         '''
         self.github_url = github_url
         self.__user = user
-        self.__auth = "Basic "+ str(base64.b64encode(str(user+":"+token).encode('ascii')), "utf-8")
+        self.__auth = "Basic "+ str(base64.b64encode(str(user+":"+token).encode('ascii')), "utf-8",verify=verify)
         self.proxies = proxies
 
     def __request(self, type, url, data):
