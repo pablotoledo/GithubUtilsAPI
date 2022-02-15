@@ -80,7 +80,7 @@ class GithubUtilsApi:
         if team_privacy:
             params['privacy'] = team_privacy
         url = self.github_url + "/orgs/" + organization_name + "/teams"
-        self.__request("POST", url, params)
+        return self.__request("POST", url, params)
 
     def team_grant_user(self, organization_name=None, team_slug_name=None, github_username=None, team_role="member"):
         '''
