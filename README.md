@@ -6,7 +6,7 @@ An API library to comunicate with some admin points of the Github API not covere
 
  1. Install this library using pip `pip install github-utils-api`
  2. Import in your code `from githubutilsapi import GithubUtilsApi`
- 3. Create and automate!
+ 3. Create and automate!!
 
 ## How to contribute
  1. Fork this project
