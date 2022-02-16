@@ -33,17 +33,20 @@ class GithubUtilsApi:
         return requests.request(type, url, headers=headers, data=body, proxies=self.proxies, verify=self.verify)
         
 
-    def repository_org_create(self, organization_name=None, repository_name=None):
+    def repository_org_create(self, organization_name=None, repository_name=None, visibility="private"):
         '''
         Allows to create a repository in a defined Github organization
         According API docs: https://docs.github.com/en/rest/reference/repos#create-an-organization-repository
         :param organization_name: string; name of the current organization created at github
         :param repository_name: string; repository slug name
+        :param visibility: private, public or internal
         :return: request
         '''
         params = {}
         if repository_name:
             params['name'] = repository_name
+        if visibility:
+            params['visibility'] = visibility
         url = self.github_url + "/orgs/" + organization_name + "/repos"
         return self.__request("POST", url, params)
 
