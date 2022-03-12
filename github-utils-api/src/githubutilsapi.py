@@ -119,10 +119,10 @@ class GithubUtilsApi:
         This method allows to list all repositories in a GitHub organization
         According API docs: https://docs.github.com/es/rest/reference/repos#list-organization-repositories
         :param organization_name: string; name of the current organization created at github
-        :param type: Specifies the types of repositories you want returned. Can be one of all, public, private, forks, sources, member, internal. Default: all
-        :param sort: Can be one of created, updated, pushed, full_name. Default: created
-        :param per_page: Results per page (max 100). Default: 100
-        :param page: Page number of the results to fetch. Default: 1
+        :param type: string; Specifies the types of repositories you want returned. Can be one of all, public, private, forks, sources, member, internal. Default: all
+        :param sort: string; Can be one of created, updated, pushed, full_name. Default: created
+        :param per_page: integer; Results per page (max 100). Default: 100
+        :param page: integer; Page number of the results to fetch. Default: 1
         :return: request
         '''
         params = {}
@@ -135,4 +135,16 @@ class GithubUtilsApi:
         if page:
             params['page'] = page
         url = self.github_url + "/orgs/" + organization_name + "/repos"
+        return self.__request("GET", url, params)
+
+    def repository(self, owner=None, repository_name=None):
+        '''
+        This method allows to get all repository's details
+        According API docs: https://docs.github.com/es/rest/reference/repos#get-a-repository
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :return: request
+        '''
+        params = {}
+        url = self.github_url + "/repos/" + owner + "/" + repository_name
         return self.__request("GET", url, params)
