@@ -113,3 +113,26 @@ class GithubUtilsApi:
         params = {}
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
         return self.__request("DELETE", url, params)
+
+    def list_repositories(self, organization_name=None, type="all", sort="created", per_page=100, page=1):
+        '''
+        This method allows to list all repositories in a GitHub organization
+        According API docs: https://docs.github.com/es/rest/reference/repos#list-organization-repositories
+        :param organization_name: string; name of the current organization created at github
+        :param type: Specifies the types of repositories you want returned. Can be one of all, public, private, forks, sources, member, internal. Default: all
+        :param sort: Can be one of created, updated, pushed, full_name. Default: created
+        :param per_page: Results per page (max 100). Default: 100
+        :param page: Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        if type:
+            params['type'] = type
+        if sort:
+            params['sort'] = sort
+        if per_page:
+            params['per_page'] = per_page
+        if page:
+            params['page'] = page
+        url = self.github_url + "/orgs/" + organization_name + "/repos"
+        return self.__request("GET", url, params)
