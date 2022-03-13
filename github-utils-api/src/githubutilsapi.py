@@ -157,7 +157,7 @@ class GithubUtilsApi:
         if protected:
             params['protected'] = protected
         query = "?per_page="+str(per_page)+"&page="+str(page)
-        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches"+query
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches" + query
         return self.__request("GET", url, params)
 
     def recursive_get_all_repository_branches(self, organization_name, repository_name, page=1):
@@ -175,3 +175,19 @@ class GithubUtilsApi:
         else:
             return list_branches
         return list_branches
+
+    def repository_get_commit_details(self, owner, repository_name, reference, per_page=30, page=1):
+        '''
+        This method allows listing all details in a commit
+        According API docs: https://docs.github.com/es/rest/reference/commits#get-a-commit
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param reference: string; ref parameter
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: commit details
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/commits/" + reference + query
+        return self.__request("GET", url, params)
