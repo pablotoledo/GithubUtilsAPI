@@ -35,7 +35,7 @@ class GithubUtilsApi:
 
     def repository_org_create(self, organization_name=None, repository_name=None, visibility="private"):
         '''
-        Allows to create a repository in a defined Github organization
+        This method allows creating a repository in a defined Github organization
         According API docs: https://docs.github.com/en/rest/reference/repos#create-an-organization-repository
         :param organization_name: string; name of the current organization created at github
         :param repository_name: string; repository slug name
@@ -52,7 +52,7 @@ class GithubUtilsApi:
 
     def repository_grant_team(self, organization_name=None, repository_name=None, repository_owner=None, team_slug_name=None, team_permission='push'):
         '''
-        This methows allows to grant a Github Team in an specific repository.
+        This methows allows granting a Github Team in an specific repository.
         According API docs: https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions 
         :param organization_name: string; name of the current organization created at github
         :param repository_name: string; repository slug name
@@ -70,7 +70,7 @@ class GithubUtilsApi:
 
     def team_create(self, organization_name=None, team_slug_name=None, team_privacy="closed"):
         '''
-        This method allows to create a GitHub Team in a defined Github Organization
+        This method allows creating a GitHub Team in a defined Github Organization
         According API docs: https://docs.github.com/en/rest/reference/teams#create-a-team
         :param organization_name: string; name of the current organization created at github
         :param team_slug_name: string; Github Team slug name
@@ -87,7 +87,7 @@ class GithubUtilsApi:
 
     def team_grant_user(self, organization_name=None, team_slug_name=None, github_username=None, team_role="member"):
         '''
-        This method allows to grant a user in a GitHub organization Team  
+        This method allows granting a user in a GitHub organization Team  
         According API docs: https://docs.github.com/en/rest/reference/teams#add-or-update-team-membership-for-a-user
         :param organization_name: string; name of the current organization created at github
         :param team_slug_name: string; Github Team slug name
@@ -103,7 +103,7 @@ class GithubUtilsApi:
 
     def team_remove_user(self, organization_name=None, team_slug_name=None, github_username=None):
         '''
-        This method allows to remove a user in a GitHub organization Team  
+        This method allows removing a user in a GitHub organization Team  
         According API docs: https://docs.github.com/en/rest/reference/teams#remove-team-membership-for-a-user
         :param organization_name: string; name of the current organization created at github
         :param team_slug_name: string; Github Team slug name
@@ -116,7 +116,7 @@ class GithubUtilsApi:
 
     def list_repositories(self, organization_name=None, type="all", sort="created", per_page=100, page=1):
         '''
-        This method allows to list all repositories in a GitHub organization
+        This method allows listing all repositories in a GitHub organization
         According API docs: https://docs.github.com/es/rest/reference/repos#list-organization-repositories
         :param organization_name: string; name of the current organization created at github
         :param type: string; Specifies the types of repositories you want returned. Can be one of all, public, private, forks, sources, member, internal. Default: all
@@ -139,7 +139,7 @@ class GithubUtilsApi:
 
     def repository(self, owner=None, repository_name=None):
         '''
-        This method allows to get all repository's details
+        This method allows getting all repository's details
         According API docs: https://docs.github.com/es/rest/reference/repos#get-a-repository
         :param owner: string; name of the current organization created at github or the owner
         :param repository_name: string; repository slug name
@@ -147,4 +147,25 @@ class GithubUtilsApi:
         '''
         params = {}
         url = self.github_url + "/repos/" + owner + "/" + repository_name
+        return self.__request("GET", url, params)
+
+    def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=100, page=1):
+        '''
+        This method allows listing all branches in a repository
+        According API docs: https://docs.github.com/es/rest/reference/branches#list-branches
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :protected: string; Setting to true returns only protected branches. When set to false, only unprotected branches are returned. Omitting this parameter returns all branches.
+        :param per_page: integer; Results per page (max 100). Default: 100
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        if protected:
+            params['protected'] = protected
+        if per_page:
+            params['per_page'] = per_page
+        if page:
+            params['page'] = page
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches"
         return self.__request("GET", url, params)
