@@ -114,14 +114,14 @@ class GithubUtilsApi:
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
         return self.__request("DELETE", url, params)
 
-    def list_repositories(self, organization_name=None, type="all", sort="created", per_page=30, page=1):
+    def list_repositories(self, organization_name=None, type="all", sort="created", per_page=None, page=None):
         '''
         This method allows listing all repositories in a GitHub organization
         According API docs: https://docs.github.com/es/rest/reference/repos#list-organization-repositories
         :param organization_name: string; name of the current organization created at github
         :param type: string; Specifies the types of repositories you want returned. Can be one of all, public, private, forks, sources, member, internal. Default: all
         :param sort: string; Can be one of created, updated, pushed, full_name. Default: created
-        :param per_page: integer; Results per page (max 100). Default: 100
+        :param per_page: integer; Results per page (max 100). Default: 30
         :param page: integer; Page number of the results to fetch. Default: 1
         :return: request
         '''
@@ -149,14 +149,14 @@ class GithubUtilsApi:
         url = self.github_url + "/repos/" + owner + "/" + repository_name
         return self.__request("GET", url, params)
 
-    def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=30, page=1):
+    def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=None, page=None):
         '''
         This method allows listing all branches in a repository
         According API docs: https://docs.github.com/es/rest/reference/branches#list-branches
         :param owner: string; name of the current organization created at github or the owner
         :param repository_name: string; repository slug name
         :protected: string; Setting to true returns only protected branches. When set to false, only unprotected branches are returned. Omitting this parameter returns all branches.
-        :param per_page: integer; Results per page (max 100). Default: 100
+        :param per_page: integer; Results per page (max 100). Default: 30
         :param page: integer; Page number of the results to fetch. Default: 1
         :return: request
         '''
