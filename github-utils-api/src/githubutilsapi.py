@@ -163,6 +163,6 @@ class GithubUtilsApi:
         params = {}
         if protected:
             params['protected'] = protected
-        query = "?per_page="+per_page+"&page="+page
+        query = "?per_page="+str(per_page)+"&page="+str(page)
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches"+query
         return self.__request("GET", url, params)
