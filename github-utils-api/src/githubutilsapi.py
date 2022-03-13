@@ -114,7 +114,7 @@ class GithubUtilsApi:
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
         return self.__request("DELETE", url, params)
 
-    def list_repositories(self, organization_name=None, type="all", sort="created", per_page=100, page=1):
+    def list_repositories(self, organization_name=None, type="all", sort="created", per_page=30, page=1):
         '''
         This method allows listing all repositories in a GitHub organization
         According API docs: https://docs.github.com/es/rest/reference/repos#list-organization-repositories
@@ -149,7 +149,7 @@ class GithubUtilsApi:
         url = self.github_url + "/repos/" + owner + "/" + repository_name
         return self.__request("GET", url, params)
 
-    def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=100, page=1):
+    def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=30, page=1):
         '''
         This method allows listing all branches in a repository
         According API docs: https://docs.github.com/es/rest/reference/branches#list-branches
