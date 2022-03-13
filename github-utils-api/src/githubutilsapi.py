@@ -149,7 +149,7 @@ class GithubUtilsApi:
         url = self.github_url + "/repos/" + owner + "/" + repository_name
         return self.__request("GET", url, params)
 
-    def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=None, page=None):
+    def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=30, page=1):
         '''
         This method allows listing all branches in a repository
         According API docs: https://docs.github.com/es/rest/reference/branches#list-branches
@@ -163,9 +163,6 @@ class GithubUtilsApi:
         params = {}
         if protected:
             params['protected'] = protected
-        if per_page:
-            params['per_page'] = per_page
-        if page:
-            params['page'] = page
-        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches"
+        query = "?per_page="+per_page+"&page="+page
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches"+query
         return self.__request("GET", url, params)
