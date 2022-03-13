@@ -159,3 +159,19 @@ class GithubUtilsApi:
         query = "?per_page="+str(per_page)+"&page="+str(page)
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches"+query
         return self.__request("GET", url, params)
+
+    def recursive_get_all_repository_branches(self, organization_name, repository_name, page=1):
+        '''
+        This is a recursive method to get all repository branches using the method self.list_repository_branches
+        :param organization_name: string; name of the current organization created at github
+        :param repository_name: string; repository slug name
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: Array of branches
+        '''
+        page_size = 30
+        list_branches = json.loads(self.list_repository_branches(owner=organization_name,repository_name=repository_name,per_page=page_size,page=page).text)
+        if len(list_branches) == page_size:
+            list_branches = list_branches + self.recursive_get_all_repository_branches(organization_name,repository_name,page+1)
+        else:
+            return list_branches
+        return list_branches
