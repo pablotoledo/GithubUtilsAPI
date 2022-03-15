@@ -11,13 +11,13 @@ class GithubUtilsApi:
         '''
         Contructor
         :params user: string; user account at github (email)
-        :params token: string; auth personal token with enough permission provided
+        :params token: string; auth personal token with enough permission provided (or password)
         :params github_url: string; for GitHub Enterprise take in cosinderation the following pattern http(s)://[hostname]/api/v3/
         :params proxies: proxies
         '''
         self.github_url = github_url
         self.__user = user
-        self.__auth = "Basic "+ str(base64.b64encode(str(user+":"+token).encode('ascii')), "utf-8")
+        self.__auth = "Basic "+ str(base64.b64encode(str(self.__user+":"+token).encode('ascii')), "utf-8")
         self.proxies = proxies
         self.verify=verify
 
