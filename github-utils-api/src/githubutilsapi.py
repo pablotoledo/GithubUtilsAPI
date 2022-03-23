@@ -206,5 +206,7 @@ class GithubUtilsApi:
         if body_text:
             params['body'] = body_text
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/issues/" + str(pull_number) + "/comments"
+        print(url)
+        print(body_text)
         return self.__request("POST", url, params)
 
