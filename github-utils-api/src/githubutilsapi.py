@@ -191,3 +191,20 @@ class GithubUtilsApi:
         query = "?per_page="+str(per_page)+"&page="+str(page)
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/commits/" + reference + query
         return self.__request("GET", url, params)
+
+    def repository_comment_pr(self, owner, repository_name, pull_number, body_text):
+        '''
+        This method allows create a comment in a pull request
+        According API docs: https://docs.github.com/en/rest/reference/pulls#create-a-review-comment-for-a-pull-request
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param pull_number: int; pull request id number
+        :param body_text: string; text of the review comment
+        :return: requests details
+        '''
+        params = {}
+        if body_text:
+            params['body'] = body_text
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/pulls/" + pull_number + "/comments"
+        return self.__request("POST", url, params)
+
