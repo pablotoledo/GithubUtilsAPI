@@ -141,6 +141,21 @@ class GithubUtilsApi:
         params = {}
         url = self.github_url + "/repos/" + owner + "/" + repository_name
         return self.__request("GET", url, params)
+    
+    def repository_branch_delete(self, owner=None, repository_name=None, branch_name=None):
+        '''
+        This method allows remove a repository branch
+        According non documented API endpoint mentioned in https://github.community/t/how-to-delete-a-branch-through-the-api/211792
+        curl -s -X DELETE -u username:${{secrets.GITHUB_TOKEN}} https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.head_ref }}
+        requests.delete(f"{API_URL}/repos/{OWNER}/{REPO}/git/refs/heads/{BRANCH_NAME}")
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param branch_name: string; branch name to be deleted from the repository
+        :return: request
+        '''
+        url = f"{self.github_url}/repos/{owner}/{repository_name}/git/refs/heads/branch_name"
+        params = {}
+        return self.__request("DELETE", url, params)
 
     def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=30, page=1):
         '''
