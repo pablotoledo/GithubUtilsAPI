@@ -153,7 +153,7 @@ class GithubUtilsApi:
         :param branch_name: string; branch name to be deleted from the repository
         :return: request
         '''
-        url = f"{self.github_url}/repos/{owner}/{repository_name}/git/refs/heads/branch_name"
+        url = f"{self.github_url}/repos/{owner}/{repository_name}/git/refs/heads/{branch_name}"
         params = {}
         return self.__request("DELETE", url, params)
 
