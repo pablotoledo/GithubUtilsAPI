@@ -66,6 +66,21 @@ class GithubUtilsApi:
             params['permission'] = team_permission
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/repos/" + repository_owner + "/" + repository_name
         return self.__request("PUT", url, params)
+    
+    def organization_grant_user(self, organization_name=None, github_username=None):
+        '''
+        This methows allows granting a Github Team in an specific repository.
+        According API docs: https://docs.github.com/en/rest/orgs/members
+        :param organization_name: string; name of the current organization created at github
+        :param github_username: string; Github Username
+        :return: request
+        '''
+
+        params = {}
+        if github_username:
+            params['role'] = 'member'
+        url = self.github_url + "/orgs/" + organization_name + "/memberships/" + github_username
+        return self.__request("PUT", url, params)
 
 
     def team_create(self, organization_name=None, team_slug_name=None, team_privacy="closed"):
