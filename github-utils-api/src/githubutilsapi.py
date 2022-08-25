@@ -72,10 +72,7 @@ class GithubUtilsApi:
         This methows allows granting a Github Team in an specific repository.
         According API docs: https://docs.github.com/en/rest/orgs/members
         :param organization_name: string; name of the current organization created at github
-        :param repository_name: string; repository slug name
-        :param repository_owner: string; organization/user owner
-        :param team_slug_name: string; Github Team slug name
-        :param team_permission: string; options available are -> pull, push, admin, maintain, triage
+        :param github_username: string; Github Username
         :return: request
         '''
 
