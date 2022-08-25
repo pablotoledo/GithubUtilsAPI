@@ -78,6 +78,7 @@ class GithubUtilsApi:
         :param team_permission: string; options available are -> pull, push, admin, maintain, triage
         :return: request
         '''
+
         params = {}
         if github_username:
             params['role'] = 'member'
