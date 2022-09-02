@@ -129,6 +129,85 @@ class GithubUtilsApi:
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
         return self.__request("DELETE", url, params)
 
+    def team_discussion_create(self, organization_name=None, team_slug_name=None, discussion_title=None, private=False):
+        '''
+        This method creates a new discussion post on a team's page
+        According API docs: https://docs.github.com/en/rest/teams/discussions#create-a-discussion
+        :param organization_name: string; name of the current organization created at github
+        :param team_slug_name: string; Github Team slug name
+        :param discussion_title: string; The discussion post's title.
+        :param private: boolean; Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to true to create a private post.
+        :return: request
+        '''
+        body = {
+            'title': discussion_title,
+            'body': discussion_title,
+            'private': private
+        }
+        url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/discussions"
+        return self.__request("POST", url, body)
+
+    def team_discussion_search(self, organization_name=None, team_slug_name=None, discussion_title=None, create_if_not_exists=False, private=False):
+        '''
+        This method returns a discussion if exists, else None
+        According API docs: https://docs.github.com/en/rest/teams/discussions#create-a-discussion
+        :param organization_name: string; name of the current organization created at github
+        :param team_slug_name: string; Github Team slug name
+        :param discussion_title: string; The discussion post's title.
+        :param create_if_not_exists: bool; If discussion does not exists, create one.
+        :param private: boolean; Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to true to create a private post.
+        :return: request
+        '''
+        def _search_discussion(discussions: list, search_title: str):
+            for discussion in discussions:
+                if discussion['title'] == search_title:
+                    return discussion
+
+        index = 1
+        discussions = json.loads(self.team_discussion_list(organization_name, team_slug_name, page=index).text)
+
+        while len(discussions) > 0:
+            discussion = _search_discussion(discussions, discussion_title)
+            if discussion is not None:
+                return discussion
+
+            index += 1
+            discussions = json.loads(self.team_discussion_list(organization_name, team_slug_name, page=index).text)
+
+        if create_if_not_exists:
+            return json.loads(self.team_discussion_create(organization_name, team_slug_name, discussion_title, private).text)
+
+    def team_discussion_list(self, organization_name=None, team_slug_name=None, per_page=30, page=1):
+        '''
+        This method list all discussions on a team's page.
+        According API docs: https://docs.github.com/en/rest/teams/discussions#list-discussions
+        :param organization_name: string; name of the current organization created at github
+        :param team_slug_name: string; Github Team slug name
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        body = {}
+        query = "?per_page=" + str(per_page) + "&page=" + str(page)
+        url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/discussions" + query
+        return self.__request("GET", url.lower(), body)
+
+    def team_discussion_create_comment(self, organization_name=None, team_slug_name=None, discussion_number=None, comment_body=None):
+        '''
+        This method creates a new comment on a team discussion.
+        According API docs: https://docs.github.com/en/rest/teams/discussion-comments#create-a-discussion-comment
+        :param organization_name: string; name of the current organization created at github
+        :param team_slug_name: string; Github Team slug name
+        :param discussion_number: string; The number that identifies the discussion.
+        :param comment_body: string; The discussion comment's body text.
+        :return: request
+        '''
+        body = {
+            'body': comment_body
+        }
+        url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/discussions/" + str(discussion_number) + "/comments"
+        return self.__request("POST", url, body)
+
     def list_repositories(self, organization_name=None, type="all", sort="created", per_page=30, page=1):
         '''
         This method allows listing all repositories in a GitHub organization
@@ -239,4 +318,3 @@ class GithubUtilsApi:
         print(url)
         print(body_text)
         return self.__request("POST", url, params)
-
