@@ -164,7 +164,11 @@ class GithubUtilsApi:
                     return discussion
 
         index = 1
-        discussions = json.loads(self.team_discussion_list(organization_name, team_slug_name, page=index).text)
+
+        discussions = self.team_discussion_list(organization_name, team_slug_name, page=index)
+        if discussions.status_code >= 300:
+            raise Exception(discussions.text)
+        discussions = json.loads(discussions.text)
 
         while len(discussions) > 0:
             discussion = _search_discussion(discussions, discussion_title)
