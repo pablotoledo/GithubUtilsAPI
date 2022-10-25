@@ -129,6 +129,18 @@ class GithubUtilsApi:
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
         return self.__request("DELETE", url, params)
 
+    def team_list_users(self, organization_name=None, team_slug_name=None):
+        '''
+        This method allows list all user in a GitHub organization Team  
+        According API docs: https://docs.github.com/en/rest/teams/members#list-team-members
+        :param organization_name: string; name of the current organization created at github
+        :param team_slug_name: string; Github Team slug name
+        :return: request
+        '''
+        params = {}
+        url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/members"
+        return self.__request("GET", url, params)
+
     def team_discussion_create(self, organization_name=None, team_slug_name=None, discussion_title=None, private=False):
         '''
         This method creates a new discussion post on a team's page
