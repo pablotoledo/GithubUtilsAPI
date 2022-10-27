@@ -334,3 +334,15 @@ class GithubUtilsApi:
         print(url)
         print(body_text)
         return self.__request("POST", url, params)
+
+    def user_details(self, user_name=None):
+        '''
+        This method allows list all GitHub user properties
+        According API docs: https://docs.github.com/es/rest/users/users#get-a-user
+        :param organization_name: string; name of the current organization created at github
+        :param user_name: string; Github User Name
+        :return: request
+        '''
+        params = {}
+        url = self.github_url + "/users/" + user_name
+        return self.__request("GET", url, params)
