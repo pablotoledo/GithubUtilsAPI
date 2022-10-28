@@ -346,3 +346,24 @@ class GithubUtilsApi:
         params = {}
         url = self.github_url + "/users/" + user_name
         return self.__request("GET", url, params)
+
+    def repository_create_release(self, owner=None, repository_name=None, tag_name=None, release_name=None, release_body=None, generate_release_notes=False):
+        '''
+        This method creates a new comment on a team discussion.
+        According API docs: https://docs.github.com/en/rest/releases/releases#create-a-release
+        :param owner: string; The account owner of the repository. The name is not case sensitive.
+        :param repository_name: string; The name of the repository. The name is not case sensitive.
+        :param tag_name: string; The name of the tag.
+        :param release_name: string; The name of the release.
+        :param release_body: string; Text describing the contents of the tag.
+        :param generate_release_notes: bool; Whether to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
+        :return: request
+        '''
+        body = {
+            'tag_name': tag_name,
+            'name': release_name,
+            'body': release_body,
+            'generate_release_notes': generate_release_notes
+        }
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/releases"
+        return self.__request("POST", url, body)
