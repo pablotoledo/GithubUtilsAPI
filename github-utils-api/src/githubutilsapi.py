@@ -32,6 +32,22 @@ class GithubUtilsApi:
         body = json.dumps(data)
         return requests.request(type, url, headers=headers, data=body, proxies=self.proxies, verify=self.verify)
         
+    def organization_members_list(self, organization_name, page, per_page=100):
+        '''
+        This method let you list GH users in a organization
+        According API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
+        :param organization_name: string; name of the current organization created at github
+        :param page: int; page
+        :param per_page: int; users per page
+        :return: request
+        '''
+        params = {}
+        if page:
+            params['page'] = page
+        if per_page:
+            params['per_page'] = per_page
+        url = self.github_url + "/orgs/" + organization_name + "/members"
+        return self.__request("GET", url, params)
 
     def repository_org_create(self, organization_name=None, repository_name=None, visibility="private"):
         '''
