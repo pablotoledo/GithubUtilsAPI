@@ -37,8 +37,8 @@ class GithubUtilsApi:
         This method let you list GH users in a organization
         According API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
         :param organization_name: string; name of the current organization created at github
-        :param page: int; page
         :param per_page: int; users per page
+        :param page: int; page
         :return: request
         '''
         params = {}
