@@ -34,12 +34,6 @@ Create the **Commit Header** with the relevant feature pre-fixed, examples below
 * GitHub: list repositories           :heavy_check_mark:
 * [GitHub] Remove user from team       :heavy_check_mark:
 
-An example of a commit message header,
-
-* Addition of parameters for start & limit in the function of `list_branches`      :x:
-
-could be better written as,
-
 
 Using your changes before they’re live
 --------------------------------------
