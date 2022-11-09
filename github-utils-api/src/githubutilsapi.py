@@ -17,9 +17,11 @@ class GithubUtilsApi:
         '''
         self.github_url = github_url
         self.__user = user
+        self.__token = token
         self.__auth = "Basic "+ str(base64.b64encode(str(self.__user+":"+token).encode('ascii')), "utf-8")
         self.proxies = proxies
-        self.verify=verify
+        self.verify = verify
+        self.github_url_graphql = f"{github_url}/api/graphql"
 
     def __request(self, type, url, data):
         '''
@@ -546,3 +548,250 @@ class GithubUtilsApi:
             result_all.extend(result)
             result = self.__response_to_json(self.list_repository_prs(owner=owner, repository_name=repository_name, per_page=per_page, page=page,state=state))
         return result_all
+    
+    #GraphQL Endpoints
+
+    def delete_repository_branch_protection_rule(self,repository_rule):
+        '''
+        This method allows delete specific branch protection rule in a repository
+        According API docs: https://docs.github.com/es/graphql/reference/mutations#deletebranchprotectionrule
+        :param repository_rule: object deleteBranchProtectionRuleInput; https://docs.github.com/es/graphql/reference/input-objects#deletebranchprotectionruleinput
+        :return: request
+        '''
+        query = 'mutation{\
+                    deleteBranchProtectionRule(input: { \
+                                branchProtectionRuleId: "change_branchProtectionRuleId" \
+                    })\
+                    {\
+                        clientMutationId \
+                    }\
+            }'
+        
+        query = query.replace("change_branchProtectionRuleId",str(repository_rule['id'] ))
+        query = query.replace("\'","\"")
+        myjson = { 'query' : query}
+        headers = {'Authorization': 'token %s' % self.__token,
+                #'Content-Type': 'application/json'
+                }
+        response = requests.post(url=self.github_url_graphql, json=myjson, headers=headers,proxies=self.proxies)
+        #if(response.status_code >= 200 and response.status_code <= 205):
+        #    print(f"For repository: {repository_name} in Github | Delete rule with pattern \"{repository_rule['pattern']}\"")
+        return response
+    
+    def list_repository_branch_protection_rules(self, owner=None, repository_name=None):
+        '''
+        This method allows list all branch protection rules in a specific repository
+        According Github docs: https://github.com/orgs/community/discussions/24596
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :return: Array of branch rules
+        '''
+        list_result = []
+        query = '{ repository ( owner:"org_name" , name: "repo_name" )\
+            { \
+                branchProtectionRules(first: 100) { \
+                    nodes { \
+                        id \
+                        pattern \
+                        isAdminEnforced \
+                        allowsDeletions \
+                        allowsForcePushes \
+                        blocksCreations  \
+                        bypassForcePushAllowances (first: 100) { \
+                            totalCount \
+                            nodes{  \
+                                actor { \
+                                    ... on Team { name id } \
+                                    ... on User { login id } \
+                                } \
+                            } \
+                        } \
+                        bypassPullRequestAllowances (first: 100) { \
+                            totalCount \
+                            nodes{  \
+                                actor { \
+                                    ... on Team { name id } \
+                                    ... on User { login id } \
+                                } \
+                            } \
+                        } \
+                        pushAllowances(first: 100) { \
+                            totalCount \
+                            nodes{  \
+                                actor { \
+                                    ... on Team { name id } \
+                                    ... on User { login id } \
+                                    ... on App { name id } \
+                                } \
+                            } \
+                        } \
+                        requiredApprovingReviewCount \
+                        requiredStatusCheckContexts \
+                        requiredStatusChecks{context} \
+                        requiresApprovingReviews \
+                        requiresCodeOwnerReviews \
+                        requiresCommitSignatures \
+                        requiresConversationResolution \
+                        requiresStatusChecks \
+                        requiresStrictStatusChecks \
+                        restrictsPushes \
+                        requiresLinearHistory \
+                        restrictsReviewDismissals \
+                        reviewDismissalAllowances(first: 100) { \
+                            totalCount \
+                            nodes{  \
+                                actor { \
+                                    ... on Team { name id } \
+                                    ... on User { login id } \
+                                } \
+                            } \
+                        } \
+                    } \
+                } \
+            } \
+        } '
+        
+        query = query.replace("org_name",owner)
+        query = query.replace("repo_name",repository_name)
+        
+        myjson = { 'query' : query}
+        headers = {'Authorization': 'token %s' % self.__token}
+        response = requests.post(url=self.github_url_graphql, json=myjson, headers=headers,proxies=self.proxies)
+        
+        if(response.status_code >= 200 and response.status_code <= 205):
+            result = json.loads(response.content)
+            list_result = result['data']['repository']['branchProtectionRules']['nodes']
+        else:
+            print(f"There was an error in request: {str(response.content)}")
+
+        return list_result
+    
+    def create_repository_branch_protection_rule_by_template(self,rule_template,repo_github):
+        '''
+        This method allows create a branch protection rule defined in a repository template to a specific repository
+        According Github docs: https://docs.github.com/es/graphql/reference/mutations#createbranchprotectionrule
+        :param rule_template: Object Branch Protection Rule. Params in https://docs.github.com/es/graphql/reference/objects#branchprotectionrule
+                              Use method self.list_repository_branch_protection_rules to get specific branch permission rule as a rule template
+        :param repo_github: Object Repository; use self.repository to get content body Object (dictionary from JSON)
+        :return: Array of branch rule created
+        '''
+        list_result = [] 
+        query = ""
+        query = 'mutation{\
+                    createBranchProtectionRule(input: { \
+                                repositoryId: "change_repositoryId" \
+                                pattern: "change_pattern" \
+                                allowsDeletions:  change_allowsDeletions\
+                                allowsForcePushes: change_allowsForcePushes\
+                                blocksCreations: change_blocksCreations\
+                                bypassForcePushActorIds: change_bypassForcePushActorIds\
+                                bypassPullRequestActorIds: change_bypassPullRequestActorIds\
+                                isAdminEnforced: change_isAdminEnforced\
+                                pushActorIds: change_pushActorIds\
+                                requiredApprovingReviewCount: change_requiredApprovingReviewCount\
+                                requiredStatusCheckContexts: change_requiredStatusCheckContexts\
+                                requiresApprovingReviews: change_requiresApprovingReviews\
+                                requiresCodeOwnerReviews: change_requiresCodeOwnerReviews\
+                                requiresCommitSignatures: change_requiresCommitSignatures\
+                                requiresConversationResolution: change_requiresConversationResolution\
+                                requiresLinearHistory: change_requiresLinearHistory\
+                                requiresStatusChecks: change_requiresStatusChecks\
+                                requiresStrictStatusChecks: change_requiresStrictStatusChecks\
+                                restrictsPushes: change_restrictsPushes\
+                                restrictsReviewDismissals: change_restrictsReviewDismissals\
+                                reviewDismissalActorIds: change_reviewDismissalActorIds\
+                    })\
+                    {\
+                        clientMutationId\
+                        branchProtectionRule{pattern}\
+                    }\
+            }'
+    
+        repositoryId = repo_github['node_id'] 
+        query = query.replace("change_repositoryId",str(repositoryId))
+        
+        pattern = rule_template["pattern"] #String
+        query = query.replace("change_pattern",pattern)
+        
+        allowsDeletions = rule_template["allowsDeletions"] #Boolean
+        query = query.replace("change_allowsDeletions",str(allowsDeletions).lower())
+        
+        allowsForcePushes = rule_template["allowsForcePushes"] #Boolean
+        query = query.replace("change_allowsForcePushes",str(allowsForcePushes).lower())
+        
+        blocksCreations = rule_template["blocksCreations"] #Boolean
+        query = query.replace("change_blocksCreations",str(blocksCreations).lower())
+        
+        bypassForcePushActorIds = self.__get_ids_bprotecion(rule_template["bypassForcePushAllowances"],rule_template["bypassForcePushAllowances"]) #IDs list
+        query = query.replace("change_bypassForcePushActorIds",str(bypassForcePushActorIds))
+
+        bypassPullRequestActorIds = self.__get_ids_bprotecion(rule_template["bypassPullRequestAllowances"],rule_template["bypassPullRequestAllowances"]) #IDs list
+        query = query.replace("change_bypassPullRequestActorIds",str(bypassPullRequestActorIds))
+        
+        isAdminEnforced = rule_template["isAdminEnforced"] #Boolean
+        query = query.replace("change_isAdminEnforced",str(isAdminEnforced).lower())
+        
+        pushActorIds = self.__get_ids_bprotecion(rule_template["pushAllowances"],rule_template["pushAllowances"]) #IDs list
+        query = query.replace("change_pushActorIds",str(pushActorIds))
+        
+        requiredApprovingReviewCount = rule_template["requiredApprovingReviewCount"] #Boolean
+        query = query.replace("change_requiredApprovingReviewCount",str(requiredApprovingReviewCount).lower()) #int
+        
+        requiresStatusChecks = rule_template["requiresStatusChecks"] #Boolean
+        query = query.replace("change_requiresStatusChecks",str(requiresStatusChecks).lower()) #int
+        
+        requiredStatusCheckContexts = rule_template["requiredStatusCheckContexts"] #[String!]
+        query = query.replace("change_requiredStatusCheckContexts",str(requiredStatusCheckContexts))
+        
+        requiresApprovingReviews = rule_template["requiresApprovingReviews"] #Boolean
+        query = query.replace("change_requiresApprovingReviews",str(requiresApprovingReviews).lower())
+        
+        requiresCodeOwnerReviews = rule_template["requiresCodeOwnerReviews"] #Boolean
+        query = query.replace("change_requiresCodeOwnerReviews",str(requiresCodeOwnerReviews).lower())
+
+        requiresCommitSignatures = rule_template["requiresCommitSignatures"] #Boolean
+        query = query.replace("change_requiresCommitSignatures",str(requiresCommitSignatures).lower())
+        
+        requiresConversationResolution = rule_template["requiresConversationResolution"] #Boolean
+        query = query.replace("change_requiresConversationResolution",str(requiresConversationResolution).lower())
+        
+        requiresLinearHistory = rule_template["requiresLinearHistory"] #Boolean
+        query = query.replace("change_requiresLinearHistory",str(requiresLinearHistory).lower())
+        
+        requiresStrictStatusChecks = rule_template["requiresStrictStatusChecks"] #Boolean
+        query = query.replace("change_requiresStrictStatusChecks",str(requiresStrictStatusChecks).lower())
+        
+        restrictsPushes = rule_template["restrictsPushes"] #Boolean
+        query = query.replace("change_restrictsPushes",str(restrictsPushes).lower())
+
+        restrictsReviewDismissalsPushes = rule_template["restrictsReviewDismissals"] #Boolean
+        query = query.replace("change_restrictsReviewDismissals",str(restrictsReviewDismissalsPushes).lower())
+        
+        reviewDismissalActorIds = self.__get_ids_bprotecion(rule_template["reviewDismissalAllowances"],rule_template["reviewDismissalAllowances"]) #IDs list
+        query = query.replace("change_reviewDismissalActorIds",str(reviewDismissalActorIds))
+        query = query.replace("\'","\"")
+       
+        myjson = { 'query' : query}
+        headers = {'Authorization': 'token %s' % self.__token,
+                }
+        response = requests.post(url=self.github_url_graphql, json=myjson, headers=headers,proxies=self.proxies)
+        
+        if(response.status_code >= 200 and response.status_code <= 205):
+            result = json.loads(response.content)
+            print(f"For repo: {repo_github['name']} in Github | Created branch protection rule with pattern \"{result['data']['createBranchProtectionRule']['branchProtectionRule']['pattern']}\"")
+        else:
+            print(f"There was an error in request: {str(response.content)}")
+        
+        return list_result
+
+    def __get_ids_bprotecion(self,input_tmp,input_repo):
+        result = []
+        if input_tmp['totalCount']>0:
+            for node in input_tmp['nodes']:
+                result.append(node['actor']['id'])
+        if input_repo['totalCount']>0:
+            for node in input_repo['nodes']:
+                if node['actor']['id'] not in result:
+                    result.append(node['actor']['id'])
+        return result
+    
