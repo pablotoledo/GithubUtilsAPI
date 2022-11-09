@@ -31,6 +31,20 @@ class GithubUtilsApi:
         }
         body = json.dumps(data)
         return requests.request(type, url, headers=headers, data=body, proxies=self.proxies, verify=self.verify)
+    
+    def __response_to_json(self,response):
+        '''
+        This method let you parse request body to JSON
+        :param response: request response object
+        :return: Array result
+        '''
+        result = []
+        if(response.status_code >= 200 and response.status_code <= 201):
+            result = json.loads(response.content)
+        if ('errors' in result):
+            print(f"There was an error in request: {str(response.content)}")
+            result = []
+        return result
         
     def organization_members_list(self, organization_name, per_page=30, page=1):
         '''
@@ -239,7 +253,7 @@ class GithubUtilsApi:
 
     def list_repositories(self, organization_name=None, type="all", sort="created", per_page=30, page=1):
         '''
-        This method allows listing all repositories in a GitHub organization
+        This method allows retreive paginated list in a request object of repositories in a GitHub organization
         According API docs: https://docs.github.com/es/rest/reference/repos#list-organization-repositories
         :param organization_name: string; name of the current organization created at github
         :param type: string; Specifies the types of repositories you want returned. Can be one of all, public, private, forks, sources, member, internal. Default: all
@@ -252,7 +266,26 @@ class GithubUtilsApi:
         query = "?per_page="+str(per_page)+"&page="+str(page)+"&type="+type+"&sort="+sort
         url = self.github_url + "/orgs/" + organization_name + "/repos"+query
         return self.__request("GET", url, params)
-
+        
+    def list_repositories_all(self, organization_name=None, type="all", sort="created", per_page = 30):
+        '''
+        This method allows listing all repositories in a GitHub organization, without paginate option using the method self.list_repositories
+        According API docs: https://docs.github.com/es/rest/reference/repos#list-organization-repositories
+        :param organization_name: string; name of the current organization created at github
+        :param type: string; Specifies the types of repositories you want returned. Can be one of all, public, private, forks, sources, member, internal. Default: all
+        :param sort: string; Can be one of created, updated, pushed, full_name. Default: created
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of repositories
+        '''
+        page = 1
+        result = self.__response_to_json(self.list_repositories(organization_name, type="all", sort="created", per_page=per_page, page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_repositories(organization_name, type="all", sort="created", per_page=per_page, page=page))
+        return result_all
+    
     def repository(self, owner=None, repository_name=None):
         '''
         This method allows getting all repository's details
@@ -282,7 +315,7 @@ class GithubUtilsApi:
 
     def list_repository_branches(self, owner=None, repository_name=None, protected=None, per_page=30, page=1):
         '''
-        This method allows listing all branches in a repository
+        This method allows retreive paginated list in a request object of branches in a repository
         According API docs: https://docs.github.com/es/rest/reference/branches#list-branches
         :param owner: string; name of the current organization created at github or the owner
         :param repository_name: string; repository slug name
@@ -298,6 +331,25 @@ class GithubUtilsApi:
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches" + query
         return self.__request("GET", url, params)
 
+    def list_repository_branches_all(self, owner=None, repository_name=None, protected=None, per_page=30):
+        '''
+        This method allows listing all branches in a repository, without paginate option using the method self.list_repository_branches.
+        According API docs: https://docs.github.com/es/rest/reference/branches#list-branches
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :protected: string; Setting to true returns only protected branches. When set to false, only unprotected branches are returned. Omitting this parameter returns all branches.
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of branches
+        '''
+        page = 1
+        result = self.__response_to_json(self.list_repository_branches(owner=owner, repository_name=repository_name, protected=None, per_page=per_page, page=1))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_repository_branches(owner=owner, repository_name=repository_name, protected=None, per_page=per_page, page=page))
+        return result_all
+    
     def recursive_get_all_repository_branches(self, organization_name, repository_name, page=1):
         '''
         This is a recursive method to get all repository branches using the method self.list_repository_branches
@@ -380,3 +432,117 @@ class GithubUtilsApi:
         }
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/releases"
         return self.__request("POST", url, body)
+
+    def list_repository_teams(self, owner=None, repository_name=None, per_page=30, page=1):
+        '''
+        This method allows retreive paginated list in a request object branches in a repository
+        According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/teams" + query
+        return self.__request("GET", url, params)
+
+    def list_repository_teams_all(self, owner=None, repository_name=None,per_page=30):
+        '''
+        This method allows listing all branches in a repository, without paginate option using the method self.list_repository_teams.
+        According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Teams
+        '''
+        page = 1
+        result = self.__response_to_json(self.list_repository_teams(owner=owner, repository_name=repository_name, per_page=per_page, page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_repository_teams(owner=owner, repository_name=repository_name, per_page=per_page, page=page))
+        return result_all
+    
+    def team_by_name(self, owner=None, team_slug=None):
+        '''
+        This method allows gets a team using the team's slug
+        According API docs:  https://docs.github.com/es/rest/teams/teams#get-a-team-by-name
+        :param owner: string; name of the current organization created at github or the owner
+        :param team_slug: string; team slug name
+        :return: request
+        '''
+        params = {}
+        url = self.github_url + "/orgs/" + owner + "/teams/" + team_slug 
+        return self.__request("GET", url, params)
+    
+
+    def list_repository_tags(self, owner=None, repository_name=None, per_page=30, page=1):
+        '''
+        This method allows retreive paginated list in a request object of tags in a repository
+        According API docs: https://docs.github.com/en/rest/repos/repos#list-repository-tags
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/tags" + query
+        return self.__request("GET", url, params)
+    
+    def list_repository_tags_all(self, owner=None, repository_name=None,per_page=30):
+        '''
+        This method allows listing all tags in a repository, without paginate option using the method self.list_repository_tags.
+        According API docs: https://docs.github.com/en/rest/repos/repos#list-repository-tags
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Tags
+        '''
+        page=1
+        result = self.__response_to_json(self.list_repository_tags(owner=owner, repository_name=repository_name, per_page=per_page, page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_repository_tags(owner=owner, repository_name=repository_name, per_page=per_page, page=page))
+        return result_all
+    
+    def list_repository_prs(self, owner=None, repository_name=None, per_page=30, page=1, state="all"):
+        '''
+        This method allows retreive paginated list in a request object of pull request in a repository by status
+        According API docs: https://docs.github.com/en/rest/pulls/pulls#list-pull-requests
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :param state: string options separated by comma; options: open, closed, or all
+        :return: request
+        '''
+        params = {}
+        query = f"?per_page={str(per_page)}&page={str(page)}&state={state}"
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/pulls" + query
+        return self.__request("GET", url, params)
+
+    def list_repository_prs_all(self, owner=None, repository_name=None,per_page=30,state="all"):
+        '''
+        This method allows listing all pull request in a repository by status without paginate option using the method self.list_repository_prs.
+        According API docs: https://docs.github.com/en/rest/pulls/pulls#list-pull-requests
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param state: string options separated by comma; options: open, closed, or all
+        :return: Array of Pull Request
+        '''
+        page=1
+        result = self.__response_to_json(self.list_repository_prs(owner=owner, repository_name=repository_name, per_page=per_page, page=page,state=state))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_repository_prs(owner=owner, repository_name=repository_name, per_page=per_page, page=page,state=state))
+        return result_all
