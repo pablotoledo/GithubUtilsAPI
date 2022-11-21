@@ -3,7 +3,7 @@ import requests
 import base64
 import json
 
-from exceptions import GithubUtilsException
+from ..exceptions import GithubUtilsException
 
 
 class GithubUtilsApi:
