@@ -468,6 +468,37 @@ class GithubUtilsApi:
             result = self.__response_to_json(self.list_repository_teams(owner=owner, repository_name=repository_name, per_page=per_page, page=page))
         return result_all
     
+    def list_teams(self,owner=None,per_page=30,page=1):
+        '''
+        This method allows retreive organization teams paginated list in a request object
+        According API docs: https://docs.github.com/es/rest/teams/teams#list-teams
+        :param owner: string; name of the current organization created at github or the owner
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/orgs/" + owner + "/teams" + query
+        return self.__request("GET", url, params)
+    
+    def list_teams_al(self,owner=None,per_page=30):
+        '''
+        This method allows listing all teams in a organization, without paginate option using the method self.list_teams.
+        According API docs: https://docs.github.com/es/rest/teams/teams#list-teams
+        :param owner: string; name of the current organization created at github or the owner
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Teams
+        '''
+        page = 1
+        result = self.__response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
+        return result_all
+    
     def team_by_name(self, owner=None, team_slug=None):
         '''
         This method allows gets a team using the team's slug
