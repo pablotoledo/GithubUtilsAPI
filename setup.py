@@ -17,7 +17,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],                                      # Information to filter the project on PyPi website
     python_requires='>=3.6',                # Minimum ver requirement of the package
-    # py_modules=["githubutilsapi"],        # Name of the python package
+    py_modules=["githubutilsapi"],        # Name of the python package
     # package_dir={'githubutilsapi':''},# Directory of the source code of the package
     install_requires=['requests']           # Install other dependencies if any
 )
