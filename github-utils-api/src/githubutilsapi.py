@@ -482,7 +482,7 @@ class GithubUtilsApi:
         url = self.github_url + "/orgs/" + owner + "/teams" + query
         return self.__request("GET", url, params)
     
-    def list_teams_al(self,owner=None,per_page=30):
+    def list_teams_all(self,owner=None,per_page=30):
         '''
         This method allows listing all teams in a organization, without paginate option using the method self.list_teams.
         According API docs: https://docs.github.com/es/rest/teams/teams#list-teams
