@@ -509,7 +509,38 @@ class GithubUtilsApi:
             result = self._response_to_json(
                 self.list_repository_teams(owner=owner, repository_name=repository_name, per_page=per_page, page=page))
         return result_all
-
+    
+    def list_teams(self,owner=None,per_page=30,page=1):
+        '''
+        This method allows retreive organization teams paginated list in a request object
+        According API docs: https://docs.github.com/es/rest/teams/teams#list-teams
+        :param owner: string; name of the current organization created at github or the owner
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/orgs/" + owner + "/teams" + query
+        return self.__request("GET", url, params)
+    
+    def list_teams_all(self,owner=None,per_page=30):
+        '''
+        This method allows listing all teams in a organization, without paginate option using the method self.list_teams.
+        According API docs: https://docs.github.com/es/rest/teams/teams#list-teams
+        :param owner: string; name of the current organization created at github or the owner
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Teams
+        '''
+        page = 1
+        result = self.__response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
+        return result_all
+    
     def team_by_name(self, owner=None, team_slug=None):
         """
         This method allows gets a team using the team's slug
@@ -595,7 +626,44 @@ class GithubUtilsApi:
                 self.list_repository_prs(owner=owner, repository_name=repository_name, per_page=per_page, page=page,
                                          state=state))
         return result_all
+    
+    def list_repository_collaborations(self, owner=None, repository_name=None,permission=None,affiliation=None, per_page=30, page=1):
+        '''
+        This method allows retreive paginated list in a request object collaborations in a repository
+        According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param permission: string; Can be one of: pull, triage, push, maintain, admin
+        :param affiliation: string; Can be one of: outside, direct, all
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)+"&permission="+str(permission)+"&affiliation="+str(affiliation) 
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/collaborators" + query
+        return self.__request("GET", url, params)
 
+    def list_repository_colllaborations_all(self, owner=None,repository_name=None,permission=None,affiliation=None,per_page=30):
+        '''
+        This method allows listing all collaborations in a repository, without paginate option using the method self.list_repository_colllaborations_all.
+        According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
+        :param owner: string; name of the current organization created at github or the owner
+        :param repository_name: string; repository slug name
+        :param permission: string; Can be one of: pull, triage, push, maintain, admin
+        :param affiliation: string; Can be one of: outside, direct, all
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Teams
+        '''
+        page = 1
+        result = self.__response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self.__response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
+        return result_all
+    
     # GraphQL Endpoints
 
     def delete_repository_branch_protection_rule(self, repository_rule: dict) -> requests.Response:
