@@ -65,9 +65,9 @@ class GithubUtilsApi:
         """
         if 200 <= response.status_code < 300:
             result = json.loads(response.content)
-
-            if 'errors' in result.keys():
-                raise GithubUtilsException(self._parse_github_error_message(result))
+            if type(result) == dict:
+                if 'errors' in result.keys():
+                    raise GithubUtilsException(self._parse_github_error_message(result))
             return result
         else:
             body = response.content.decode('utf-8') if type(response.content) is bytes else response.content
@@ -522,7 +522,7 @@ class GithubUtilsApi:
         params = {}
         query = "?per_page="+str(per_page)+"&page="+str(page)
         url = self.github_url + "/orgs/" + owner + "/teams" + query
-        return self.__request("GET", url, params)
+        return self._request("GET", url, params)
     
     def list_teams_all(self,owner=None,per_page=30):
         '''
@@ -533,12 +533,12 @@ class GithubUtilsApi:
         :return: Array of Teams
         '''
         page = 1
-        result = self.__response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
+        result = self._response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
         result_all = []
         while (len(result)>0):
             page +=1
             result_all.extend(result)
-            result = self.__response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
+            result = self._response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
         return result_all
     
     def team_by_name(self, owner=None, team_slug=None):
@@ -642,7 +642,7 @@ class GithubUtilsApi:
         params = {}
         query = "?per_page="+str(per_page)+"&page="+str(page)+"&permission="+str(permission)+"&affiliation="+str(affiliation) 
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/collaborators" + query
-        return self.__request("GET", url, params)
+        return self._request("GET", url, params)
 
     def list_repository_colllaborations_all(self, owner=None,repository_name=None,permission=None,affiliation=None,per_page=30):
         '''
@@ -656,12 +656,12 @@ class GithubUtilsApi:
         :return: Array of Teams
         '''
         page = 1
-        result = self.__response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
+        result = self._response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
         result_all = []
         while (len(result)>0):
             page +=1
             result_all.extend(result)
-            result = self.__response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
+            result = self._response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
         return result_all
     
     # GraphQL Endpoints
