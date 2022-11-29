@@ -65,9 +65,8 @@ class GithubUtilsApi:
         """
         if 200 <= response.status_code < 300:
             result = json.loads(response.content)
-            if type(result) == dict:
-                if 'errors' in result.keys():
-                    raise GithubUtilsException(self._parse_github_error_message(result))
+            if type(result) == dict and 'errors' in result.keys():
+                raise GithubUtilsException(self._parse_github_error_message(result))
             return result
         else:
             body = response.content.decode('utf-8') if type(response.content) is bytes else response.content
@@ -397,7 +396,7 @@ class GithubUtilsApi:
         :param page: integer; Page number of the results to fetch. Default: 1
         :return: Array of branches
         """
-        page_size = 30
+        page_size = 100
         list_branches = json.loads(
             self.list_repository_branches(owner=organization_name, repository_name=repository_name, per_page=page_size,
                                           page=page).text)
@@ -407,6 +406,18 @@ class GithubUtilsApi:
         else:
             return list_branches
         return list_branches
+
+    def get_repository_branch(self, owner=None, repository_name=None, branch_name=None):
+        """
+        This method allows retrieve paginated list in a request object of branches in a repository
+        According API docs: https://docs.github.com/en/rest/branches/branches?apiVersion=2022-11-28#get-a-branch
+        :param owner: string; name of the current organization created at GitHub or the owner
+        :param repository_name: string; repository slug name
+        :param branch_name: string; The name of the branch. Cannot contain wildcard characters.
+        :return: request
+        """
+        url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches/" + branch_name
+        return self._response_to_json(self._request("GET", url, {}))
 
     def repository_get_commit_details(self, owner, repository_name, reference, per_page=30, page=1):
         """
@@ -509,38 +520,38 @@ class GithubUtilsApi:
             result = self._response_to_json(
                 self.list_repository_teams(owner=owner, repository_name=repository_name, per_page=per_page, page=page))
         return result_all
-    
-    def list_teams(self,owner=None,per_page=30,page=1):
-        '''
+
+    def list_teams(self, owner=None, per_page=30, page=1):
+        """
         This method allows retreive organization teams paginated list in a request object
         According API docs: https://docs.github.com/es/rest/teams/teams#list-teams
-        :param owner: string; name of the current organization created at github or the owner
+        :param owner: string; name of the current organization created at GitHub or the owner
         :param per_page: integer; Results per page (max 100). Default: 30
         :param page: integer; Page number of the results to fetch. Default: 1
         :return: request
-        '''
+        """
         params = {}
-        query = "?per_page="+str(per_page)+"&page="+str(page)
+        query = "?per_page=" + str(per_page) + "&page=" + str(page)
         url = self.github_url + "/orgs/" + owner + "/teams" + query
         return self._request("GET", url, params)
-    
-    def list_teams_all(self,owner=None,per_page=30):
-        '''
-        This method allows listing all teams in a organization, without paginate option using the method self.list_teams.
+
+    def list_teams_all(self, owner=None, per_page=30):
+        """
+        This method allows listing all teams in an organization, without paginate option using the method self.list_teams.
         According API docs: https://docs.github.com/es/rest/teams/teams#list-teams
-        :param owner: string; name of the current organization created at github or the owner
+        :param owner: string; name of the current organization created at GitHub or the owner
         :param per_page: integer; Results per page (max 100). Default: 30
         :return: Array of Teams
-        '''
+        """
         page = 1
         result = self._response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
         result_all = []
-        while (len(result)>0):
-            page +=1
+        while len(result) > 0:
+            page += 1
             result_all.extend(result)
             result = self._response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
         return result_all
-    
+
     def team_by_name(self, owner=None, team_slug=None):
         """
         This method allows gets a team using the team's slug
@@ -626,44 +637,51 @@ class GithubUtilsApi:
                 self.list_repository_prs(owner=owner, repository_name=repository_name, per_page=per_page, page=page,
                                          state=state))
         return result_all
-    
-    def list_repository_collaborations(self, owner=None, repository_name=None,permission=None,affiliation=None, per_page=30, page=1):
-        '''
+
+    def list_repository_collaborations(self, owner=None, repository_name=None, permission=None, affiliation=None,
+                                       per_page=30, page=1):
+        """
         This method allows retreive paginated list in a request object collaborations in a repository
         According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
-        :param owner: string; name of the current organization created at github or the owner
+        :param owner: string; name of the current organization created at GitHub or the owner
         :param repository_name: string; repository slug name
         :param permission: string; Can be one of: pull, triage, push, maintain, admin
         :param affiliation: string; Can be one of: outside, direct, all
         :param per_page: integer; Results per page (max 100). Default: 30
         :param page: integer; Page number of the results to fetch. Default: 1
         :return: request
-        '''
+        """
         params = {}
-        query = "?per_page="+str(per_page)+"&page="+str(page)+"&permission="+str(permission)+"&affiliation="+str(affiliation) 
+        query = "?per_page=" + str(per_page) + "&page=" + str(page) + "&permission=" + str(
+            permission) + "&affiliation=" + str(affiliation)
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/collaborators" + query
         return self._request("GET", url, params)
 
-    def list_repository_colllaborations_all(self, owner=None,repository_name=None,permission=None,affiliation=None,per_page=30):
-        '''
+    def list_repository_colllaborations_all(self, owner=None, repository_name=None, permission=None, affiliation=None,
+                                            per_page=30):
+        """
         This method allows listing all collaborations in a repository, without paginate option using the method self.list_repository_colllaborations_all.
         According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
-        :param owner: string; name of the current organization created at github or the owner
+        :param owner: string; name of the current organization created at GitHub or the owner
         :param repository_name: string; repository slug name
         :param permission: string; Can be one of: pull, triage, push, maintain, admin
         :param affiliation: string; Can be one of: outside, direct, all
         :param per_page: integer; Results per page (max 100). Default: 30
         :return: Array of Teams
-        '''
+        """
         page = 1
-        result = self._response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
+        result = self._response_to_json(
+            self.list_repository_collaborations(owner=owner, repository_name=repository_name, permission=permission,
+                                                affiliation=affiliation, per_page=per_page, page=page))
         result_all = []
-        while (len(result)>0):
-            page +=1
+        while len(result) > 0:
+            page += 1
             result_all.extend(result)
-            result = self._response_to_json(self.list_repository_collaborations(owner=owner, repository_name=repository_name,permission=permission,affiliation=affiliation,per_page=per_page,page=page))
+            result = self._response_to_json(
+                self.list_repository_collaborations(owner=owner, repository_name=repository_name, permission=permission,
+                                                    affiliation=affiliation, per_page=per_page, page=page))
         return result_all
-    
+
     # GraphQL Endpoints
 
     def delete_repository_branch_protection_rule(self, repository_rule: dict) -> requests.Response:
@@ -825,12 +843,13 @@ class GithubUtilsApi:
         query = query.replace("change_blocksCreations", str(blocks_creations).lower())
 
         bypass_force_push_actor_ids = self._get_ids_branch_protection(rule_template["bypassForcePushAllowances"],
-                                                                      rule_template["bypassForcePushAllowances"])  # IDs list
+                                                                      rule_template[
+                                                                          "bypassForcePushAllowances"])  # IDs list
         query = query.replace("change_bypassForcePushActorIds", str(bypass_force_push_actor_ids))
 
         bypass_pull_request_actor_ids = self._get_ids_branch_protection(rule_template["bypassPullRequestAllowances"],
                                                                         rule_template[
-                                                                      "bypassPullRequestAllowances"])  # IDs list
+                                                                            "bypassPullRequestAllowances"])  # IDs list
         query = query.replace("change_bypassPullRequestActorIds", str(bypass_pull_request_actor_ids))
 
         is_admin_enforced = rule_template["isAdminEnforced"]  # Boolean
@@ -880,7 +899,8 @@ class GithubUtilsApi:
         query = query.replace("change_restrictsReviewDismissals", str(restricts_review_dismissals_pushes).lower())
 
         review_dismissal_actor_ids = self._get_ids_branch_protection(rule_template["reviewDismissalAllowances"],
-                                                                     rule_template["reviewDismissalAllowances"])  # IDs list
+                                                                     rule_template[
+                                                                         "reviewDismissalAllowances"])  # IDs list
         query = query.replace("change_reviewDismissalActorIds", str(review_dismissal_actor_ids))
         query = query.replace("\'", "\"")
 
