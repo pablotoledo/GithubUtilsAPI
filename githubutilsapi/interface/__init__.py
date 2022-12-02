@@ -682,6 +682,76 @@ class GithubUtilsApi:
                                                     affiliation=affiliation, per_page=per_page, page=page))
         return result_all
 
+    def list_commit_statuses(self, owner=None, repo=None,sha=None, per_page=30, page=1):
+        '''
+        This method allows retreive paginated list in a request object statuses check in a specific reference
+        According API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+        :param owner: string; name of the current organization created at github or the owner
+        :param repo: string; repository slug name, required
+        :param sha: string; ref parameter, required
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/repos/" + owner + "/" + repo + "/statuses/" + sha  + query
+        return self._request("GET", url, params)
+    
+    def list_commit_statuses_all(self, owner=None, repo=None,sha=None, per_page=30):
+        '''
+        This method allows listing all statuses check in a specific reference , without paginate option using the method self.list_commit_statuses.
+        According API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+        :param owner: string; name of the current organization created at github or the owner
+        :param repo: string; repository slug name
+        :param ref: string; ref parameter, required
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Statuses
+        '''
+        page = 1
+        result = self._response_to_json(self.list_commit_statuses(owner=owner, repo=repo,sha=sha,per_page=per_page,page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self._response_to_json(self.list_commit_statuses(owner=owner, repo=repo,sha=sha,per_page=per_page,page=page))
+        return result_all
+
+    def list_reviews_for_pr(self, owner=None, repo=None,pull_number=None, per_page=30, page=1):
+        '''
+        This method allows retreive paginated list in a request object pr reviews
+        According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+        :param owner: string; name of the current organization created at github or the owner
+        :param repo: string; repository slug name. Required
+        :param pull_number: integer; The number that identifies the pull request. Required
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/repos/" + owner + "/" + repo + "/pulls/" + str(pull_number) + "/reviews" + query
+        return self._request("GET", url, params)
+
+    def list_reviews_for_pr_all(self, owner=None, repo=None,pull_number=None, per_page=30):
+        '''
+        This method allows listing all statuses check in a specific reference , without paginate option using the method self.list_commit_statuses.
+        According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+        :param owner: string; name of the current organization created at github or the owner
+        :param repo: string; repository slug name
+        :param pull_number: integer; The number that identifies the pull request. Required
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Reviews
+        '''
+        page = 1
+        result = self._response_to_json(self.list_reviews_for_pr(owner=owner, repo=repo,pull_number=pull_number,per_page=per_page,page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self._response_to_json(self.list_reviews_for_pr(owner=owner, repo=repo,pull_number=pull_number,per_page=per_page,page=page))
+        return result_all
+    
     # GraphQL Endpoints
 
     def delete_repository_branch_protection_rule(self, repository_rule: dict) -> requests.Response:
