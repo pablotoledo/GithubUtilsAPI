@@ -23,7 +23,7 @@ Mandatory conditions
 1. If you adding new method
 2. If you make changes in current methods
 
-Please follow the code style.
+Please follow the code style and check docs folder and **document your changes**.
 
 
 Before you raise a PR

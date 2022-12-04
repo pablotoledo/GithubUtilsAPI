@@ -1,9 +1,10 @@
 GitHub Utils API - documentation
-===================================
+================================
 
 This package is used to provide a **simple** python interface for interacting with GitHub.
 It is based on the official public Rest API documentation and private methods discovered by the community.
 
+This project is documented at https://githubutilsapi.readthedocs.io/
 
 Getting started
 ---------------
