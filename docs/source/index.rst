@@ -16,6 +16,7 @@ Install package using pip:
 Import the package and create a conection.
 
 .. code-block:: python
+
    from github_utils_api import GitHub
 
    gh = GithubUtilsApi(user='user', token='token')
@@ -23,6 +24,7 @@ Import the package and create a conection.
 In case you need to connect to a GitHub Enterprise instance, you can pass the url as a parameter.
 
 .. code-block:: python
+   
    from github_utils_api import GitHub
 
    gh = GithubUtilsApi(user='user', token='token', github_url='https://github.mycompany.com/api/v3', github_url_graphql='https://github.mycompany.com/api/graphql')

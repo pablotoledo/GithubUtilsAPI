@@ -3,7 +3,7 @@
 # -- Project information
 
 project = 'GitHubUtilsAPI'
-copyright = '2022, pablotoledo'
+copyright = 'APACHE 2.0'
 author = 'pablotoledo'
 
 release = '0.1'
