@@ -13,14 +13,14 @@ Install package using pip:
 
 ``pip install github-utils-api``
 
-Import the package and create a conection:
+Import the package and create a conection.
 
 .. code-block:: python
    from github_utils_api import GitHub
 
    gh = GithubUtilsApi(user='user', token='token')
 
-In case you need to connect to a GitHub Enterprise instance, you can pass the url as a parameter:
+In case you need to connect to a GitHub Enterprise instance, you can pass the url as a parameter.
 
 .. code-block:: python
    from github_utils_api import GitHub
