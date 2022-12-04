@@ -20,5 +20,3 @@ According API docs: https://docs.github.com/en/rest/reference/repos#create-an-or
 
     # Create a repository
     repo = gh.repository_org_create('organization_name', 'repository_name', visibility='private, public or internal')
-
-   

@@ -29,9 +29,22 @@ In case you need to connect to a GitHub Enterprise instance, you can pass the ur
 
    gh = GithubUtilsApi(user='user', token='token', github_url='https://github.mycompany.com/api/v3', github_url_graphql='https://github.mycompany.com/api/graphql')
 
+
+
+
+
+   
 Contents
 --------
-
 .. toctree::
    :maxdepth: 2
+
    api
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
