@@ -332,6 +332,13 @@ According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-
                'repository_name')
 
 
+Contents
+--------
+.. toctree::
+   :maxdepth: 2
+
+   index
+
 
 Indices and tables
 ==================
