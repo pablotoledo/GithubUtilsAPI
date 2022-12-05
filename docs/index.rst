@@ -490,6 +490,137 @@ Accorrding API docs: https://docs.github.com/es/rest/collaborators/collaborators
                affiliation='outside, direct, all',
                'per_page')
 
+List commit statuses
+--------------------
+This method let you list commit statuses. Paginated.
+
+Accorrding API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+
+.. code-block:: python
+
+    # List commit statuses
+    repo = gh.list_commit_statuses(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'ref', 
+               'per_page', 
+               'page')
+
+List all commit statuses
+------------------------
+This method let you list all commit statuses. Retrieve all commit statuses.
+
+Accorrding API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+
+.. code-block:: python
+
+    # List all commit statuses
+    repo = gh.list_commit_statuses_all(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'ref', 
+               'per_page')
+
+List reviews for a pull request
+-------------------------------
+This method let you list reviews for a pull request. Paginated.
+
+Accorrding API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+
+.. code-block:: python
+
+    # List reviews for a pull request
+    repo = gh.list_reviews_for_pr(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'pull_number', 
+               'per_page', 
+               'page')
+
+List all reviews for a pull request
+-----------------------------------
+This method let you list all reviews for a pull request. Retrieve all reviews for a pull request.
+
+Accorrding API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+
+.. code-block:: python
+
+    # List all reviews for a pull request
+    repo = gh.list_reviews_for_pr_all(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'pull_number', 
+               'per_page')
+
+Delete repository branch protection rule
+----------------------------------------
+This method let you delete repository branch protection rule. GraphQL Query.
+
+Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#deletebranchprotectionrule
+
+.. code-block:: python
+
+    # Delete repository branch protection rule
+    repo = gh.delete_repository_branch_protection_rule(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'branch_name')
+
+List repository branch protection rules
+---------------------------------------
+This method let you list repository branch protection rules. GraphQL Query.
+
+Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/objects#branchprotectionrule
+
+Inspired by this community discussion: https://github.com/orgs/community/discussions/24596
+
+.. code-block:: python
+
+    # List repository branch protection rules
+    repo = gh.list_repository_branch_protection_rules(
+               'organization_name_or_owner', 
+               'repository_name')
+
+Create repository branch protection rule by template
+----------------------------------------------------
+This method let you create repository branch protection rule by template. GraphQL Query.
+
+Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#createbranchprotectionrule
+
+.. code-block:: python
+
+    # Create repository branch protection rule by template
+    repo = gh.create_repository_branch_protection_rule_by_template(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'branch_name', 
+               'template_name')
+
+Update required status checks context to branch repository
+----------------------------------------------------------
+This method let you update required status checks context to branch repository. GraphQL Query.
+
+Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
+
+.. code-block:: python
+
+    # Update required status checks context to branch repository
+    repo = gh.update_required_status_check_context_to_branch_policy(
+               'branch_protection_rule_id',
+               'status_check_contexts')
+
+Change branch regex pattern policy
+----------------------------------
+This method let you change branch regex pattern policy. GraphQL Query.
+
+Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
+
+.. code-block:: python
+
+    # Change branch regex pattern policy
+    repo = gh.change_branch_regex_pattern_policy(
+               'branch_protection_rule_id',
+               'branch_regex_pattern')
 
 
 Contents
