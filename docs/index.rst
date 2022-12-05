@@ -33,14 +33,6 @@ In case you need to connect to a GitHub Enterprise instance, you can pass the ur
          github_url_graphql='https://github.mycompany.com/api/graphql')
 
 
-
-Contents
---------
-.. toctree::
-   :maxdepth: 2
-
-   index
-
 Get organization members
 ------------------------
 This method let you list GH users in an organization
@@ -338,7 +330,6 @@ According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-
     repo = gh.list_repository_teams_all(
                'organization_name_or_owner', 
                'repository_name')
-
 
 
 
