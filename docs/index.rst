@@ -27,7 +27,10 @@ In case you need to connect to a GitHub Enterprise instance, you can pass the ur
    
    from github_utils_api import GitHub
 
-   gh = GithubUtilsApi(user='user', token='token', github_url='https://github.mycompany.com/api/v3', github_url_graphql='https://github.mycompany.com/api/graphql')
+   gh = GithubUtilsApi(user='user', 
+         token='token', 
+         github_url='https://github.mycompany.com/api/v3', 
+         github_url_graphql='https://github.mycompany.com/api/graphql')
 
 
 
@@ -56,7 +59,246 @@ According API docs: https://docs.github.com/en/rest/reference/repos#create-an-or
 .. code-block:: python
 
     # Create a repository
-    repo = gh.repository_org_create('organization_name', 'repository_name', visibility='private, public or internal')
+    repo = gh.repository_org_create('organization_name', 
+               'repository_name', 
+               visibility='private, public or internal')
+
+Grant Team access to a repository
+---------------------------------
+This method let you grant a team access to a repository
+According API docs: https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions
+
+.. code-block:: python
+
+    # Grant Team access to a repository
+    repo = gh.repository_grant_team('organization_name', 
+               'repository_name', 
+               'repository_owner', 
+               'team_slug_name', 
+               permission='pull, push, admin, maintain or triage')
+
+Grant user into the organization
+--------------------------------
+This method let you grant a user into the specified organization
+According API docs: https://docs.github.com/en/rest/orgs/members
+
+.. code-block:: python
+
+    # Grant user into the organization
+    repo = gh.organization_grant_user('organization_name', 
+               'user_name')
+
+Create a team
+-------------
+This method let you create a team into the specified organization
+According API docs: https://docs.github.com/en/rest/reference/teams#create-a-team
+
+.. code-block:: python
+
+    # Create a team
+    repo = gh.team_create('organization_name', 
+               'team_name', 
+               team_privacy='secret or closed')
+
+Remove a user from a team
+-------------------------
+This method let you remove a user from a GitHub organization team
+According API docs: https://docs.github.com/en/rest/reference/teams#remove-team-membership-for-a-user
+
+.. code-block:: python
+
+    # Remove a user from a team
+    repo = gh.team_remove_user('organization_name', 
+               'team_name', 
+               'user_name')
+
+List team users
+---------------
+This method let you list users in a GitHub organization team
+According API docs: https://docs.github.com/en/rest/reference/teams#list-team-members
+
+.. code-block:: python
+
+    # List team members
+    repo = gh.team_list_users('organization_name', 
+               'team_name')
+
+Create a discussion post on a team's page
+-----------------------------------------
+This method let you create a discussion post on a team's page
+According API docs: https://docs.github.com/en/rest/reference/teams#create-a-discussion
+
+.. code-block:: python
+
+    # Create a discussion post on a team's page
+    repo = gh.team_discussion_create('organization_name', 
+               'team_name', 
+               'discussion_title', 
+               private='Boolean: True or False')
+
+Get a discussion post on a team's page
+--------------------------------------
+This method let you get a discussion post on a team's page or create a new one if it does not exist
+According API docs: https://docs.github.com/en/rest/teams/discussions#create-a-discussion
+
+.. code-block:: python
+
+    # Get a discussion post on a team's page or create a new one if it does not exist
+    repo = gh.team_discussion_search('organization_name', 
+               'team_name', 
+               'discussion_title', 
+               create_if_not_exists='Boolean: True or False', 
+               private='Boolean: True or False')
+
+List all discussions on a team's page
+-------------------------------------
+This method let you list all discussions on a team's page.
+According API docs: https://docs.github.com/en/rest/teams/discussions#list-discussions
+
+.. code-block:: python
+
+    # List all discussions on a team's page
+    repo = gh.team_discussion_list('organization_name', 'team_name')
+
+Create a comment on a Team discussion post
+------------------------------------------
+This method let you create a comment on a Team discussion post.
+According API docs: https://docs.github.com/en/rest/teams/discussion-comments#create-a-discussion-comment
+
+.. code-block:: python
+
+    # Create a comment on a Team discussion post
+    repo = gh.team_discussion_create_comment('organization_name', 
+               'team_name', 
+               'discussion_id', 
+               'comment_body')
+
+List repositories in an organization
+------------------------------------
+This method let you list repositories in an organization. Paginated method with filter options.
+According API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
+
+.. code-block:: python
+
+    # List repositories in an organization
+    repo = gh.list_repositories('organization_name', 
+               type='all, public, private, forks, sources, member, internal', 
+               sort='full_name, created, updated, pushed, size, stargazers_count, watchers_count, forks_count, open_issues_count, default_branch, score', 
+               sort='created, updated, pushed, full_name' 
+               per_page='1-100', 
+               page='1-100')
+
+List all repositories in an organization
+----------------------------------------
+This method let you list all repositories in an organization. Retrieve all repositories.
+According API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
+
+.. code-block:: python
+
+    # List all repositories in an organization
+    repo = gh.list_repositories_all('organization_name', 
+               type='all, public, private, forks, sources, member, internal', 
+               sort='created, updated, pushed, full_name', 
+               per_page='1-100')
+
+Get repository details
+----------------------
+This method let you get repository details.
+According API docs: https://docs.github.com/en/rest/reference/repos#get-a-repository
+
+.. code-block:: python
+
+    # Get repository details
+    repo = gh.get_repository('organization_name_or_owner', 'repository_name')
+
+Delete a repository branch
+--------------------------
+This method let you delete a repository branch.
+According non-documented API endpoint. Mentioned in https://github.community/t/how-to-delete-a-branch-through-the-api/211792
+
+.. code-block:: python
+
+    # Delete a repository branch
+    repo = gh.repository_branch_delete('organization_name_or_owner', 
+               'repository_name', 
+               'branch_name')
+
+List repository branches
+------------------------
+This method allows retrieve paginated list in a request object of branches in a repository
+According API docs: https://docs.github.com/en/rest/reference/repos#list-branches
+
+.. code-block:: python
+
+    # List repository branches
+    repo = gh.repository_branch_list('organization_name_or_owner', 
+               'repository_name', 
+               protected='Boolean: True or False',
+               per_page='1-100', 
+               page='1-100')
+
+List all repository branches
+----------------------------
+This method allows listing all branches in a repository, without paginate option using the method self.list_repository_branches.
+According API docs: https://docs.github.com/en/rest/reference/repos#list-branches
+
+.. code-block:: python
+
+    # List all repository branches
+    repo = gh.recursive_get_all_repository_branches('organization_name_or_owner', 'repository_name')
+
+Get repository branch details
+-----------------------------
+This method let you get repository branch details.
+According API docs: https://docs.github.com/en/rest/branches/branches?apiVersion=2022-11-28#get-a-branch
+
+.. code-block:: python
+
+    # Get repository branch details
+    repo = gh.get_repository_branch(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'branch_name')
+
+Get repository commit details
+-----------------------------
+This method let you get repository commit details.
+According API docs: https://docs.github.com/en/rest/reference/repos#get-a-commit
+
+.. code-block:: python
+
+    # Get repository commit details
+    repo = gh.repository_get_commit_details(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'commit_sha')
+
+Comment a pull request or issue
+-------------------------------
+This method let you comment a pull request or issue.
+According API docs: https://docs.github.com/en/rest/reference/issues#create-a-review-comment-for-a-pull-request
+
+.. code-block:: python
+
+    # Comment a pull request or issue
+    repo = gh.repository_comment_issue(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'pull_request_number', 
+               'comment_body')
+
+Get user details
+----------------
+This method let you get user details.
+According API docs: https://docs.github.com/en/rest/reference/users#get-a-user
+
+.. code-block:: python
+
+    # Get user details
+    repo = gh.user_details('user_name')
+
+
+
 
 Indices and tables
 ==================

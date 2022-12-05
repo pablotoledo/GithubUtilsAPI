@@ -2,6 +2,7 @@
 import requests
 import base64
 import json
+from .utils import deprecated
 
 from ..exceptions import GithubUtilsException
 
@@ -307,6 +308,7 @@ class GithubUtilsApi:
         :param sort: string; Can be one of created, updated, pushed, full_name. Default: created
         :param per_page: integer; Results per page (max 100). Default: 30
         :return: Array of repositories
+        TODO: Pending refactor with recursive approach to increase legibility and performance
         """
         page = 1
         result = self._response_to_json(
@@ -365,8 +367,10 @@ class GithubUtilsApi:
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/branches" + query
         return self._request("GET", url, params)
 
+    @deprecated("Use method recursive_get_all_repository_branches instead due to performance and legibility issues")
     def list_repository_branches_all(self, owner=None, repository_name=None, protected=None, per_page=30):
         """
+        DEPRECATED!
         This method allows listing all branches in a repository, without paginate option using the method self.list_repository_branches.
         According API docs: https://docs.github.com/es/rest/reference/branches#list-branches
         :param owner: string; name of the current organization created at GitHub or the owner
