@@ -297,6 +297,48 @@ According API docs: https://docs.github.com/en/rest/reference/users#get-a-user
     # Get user details
     repo = gh.user_details('user_name')
 
+Create a repository release
+---------------------------
+This method let you create a repository release.
+According API docs: https://docs.github.com/en/rest/reference/repos#list-repository-teams
+
+.. code-block:: python
+
+    # Create a repository release
+    repo = gh.repository_create_release(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'tag_name', 
+               'release_name', 
+               'release_body',
+               'generate_release_notes')
+
+List repository teams
+---------------------
+This method let you list repository teams.
+According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
+
+.. code-block:: python
+
+    # List repository teams
+    repo = gh.list_repository_teams(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'per_page', 
+               'page')
+
+List all repository teams
+-------------------------
+This method let you list all repository teams.
+According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
+
+.. code-block:: python
+
+    # List all repository teams
+    repo = gh.list_repository_teams_all(
+               'organization_name_or_owner', 
+               'repository_name')
+
 
 
 
