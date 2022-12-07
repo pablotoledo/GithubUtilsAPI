@@ -37,7 +37,7 @@ Get organization members
 ------------------------
 This method let you list GH users in an organization
 
-Accorrding API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
+According API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
 
 .. code-block:: python
 
@@ -48,7 +48,7 @@ Create a repository
 -------------------
 This method let you create a repository in an organization
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#create-an-organization-repository
+According API docs: https://docs.github.com/en/rest/reference/repos#create-an-organization-repository
 
 .. code-block:: python
 
@@ -61,7 +61,7 @@ Grant Team access to a repository
 ---------------------------------
 This method let you grant a team access to a repository
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions
+According API docs: https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions
 
 .. code-block:: python
 
@@ -76,7 +76,7 @@ Grant user into the organization
 --------------------------------
 This method let you grant a user into the specified organization
 
-Accorrding API docs: https://docs.github.com/en/rest/orgs/members
+According API docs: https://docs.github.com/en/rest/orgs/members
 
 .. code-block:: python
 
@@ -88,7 +88,7 @@ Create a team
 -------------
 This method let you create a team into the specified organization
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/teams#create-a-team
+According API docs: https://docs.github.com/en/rest/reference/teams#create-a-team
 
 .. code-block:: python
 
@@ -101,7 +101,7 @@ Remove a user from a team
 -------------------------
 This method let you remove a user from a GitHub organization team
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/teams#remove-team-membership-for-a-user
+According API docs: https://docs.github.com/en/rest/reference/teams#remove-team-membership-for-a-user
 
 .. code-block:: python
 
@@ -114,7 +114,7 @@ List team users
 ---------------
 This method let you list users in a GitHub organization team
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/teams#list-team-members
+According API docs: https://docs.github.com/en/rest/reference/teams#list-team-members
 
 .. code-block:: python
 
@@ -126,7 +126,7 @@ Create a discussion post on a team's page
 -----------------------------------------
 This method let you create a discussion post on a team's page
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/teams#create-a-discussion
+According API docs: https://docs.github.com/en/rest/reference/teams#create-a-discussion
 
 .. code-block:: python
 
@@ -140,7 +140,7 @@ Get a discussion post on a team's page
 --------------------------------------
 This method let you get a discussion post on a team's page or create a new one if it does not exist
 
-Accorrding API docs: https://docs.github.com/en/rest/teams/discussions#create-a-discussion
+According API docs: https://docs.github.com/en/rest/teams/discussions#create-a-discussion
 
 .. code-block:: python
 
@@ -155,7 +155,7 @@ List all discussions on a team's page
 -------------------------------------
 This method let you list all discussions on a team's page.
 
-Accorrding API docs: https://docs.github.com/en/rest/teams/discussions#list-discussions
+According API docs: https://docs.github.com/en/rest/teams/discussions#list-discussions
 
 .. code-block:: python
 
@@ -166,7 +166,7 @@ Create a comment on a Team discussion post
 ------------------------------------------
 This method let you create a comment on a Team discussion post.
 
-Accorrding API docs: https://docs.github.com/en/rest/teams/discussion-comments#create-a-discussion-comment
+According API docs: https://docs.github.com/en/rest/teams/discussion-comments#create-a-discussion-comment
 
 .. code-block:: python
 
@@ -180,7 +180,7 @@ List repositories in an organization
 ------------------------------------
 This method let you list repositories in an organization. Paginated method with filter options.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
+According API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
 
 .. code-block:: python
 
@@ -196,7 +196,7 @@ List all repositories in an organization
 ----------------------------------------
 This method let you list all repositories in an organization. Retrieve all repositories.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
+According API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
 
 .. code-block:: python
 
@@ -210,7 +210,7 @@ Get repository details
 ----------------------
 This method let you get repository details.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#get-a-repository
+According API docs: https://docs.github.com/en/rest/reference/repos#get-a-repository
 
 .. code-block:: python
 
@@ -221,7 +221,7 @@ Delete a repository branch
 --------------------------
 This method let you delete a repository branch.
 
-Accorrding non-documented API endpoint. Mentioned in https://github.community/t/how-to-delete-a-branch-through-the-api/211792
+According non-documented API endpoint. Mentioned in https://github.community/t/how-to-delete-a-branch-through-the-api/211792
 
 .. code-block:: python
 
@@ -234,7 +234,7 @@ List repository branches
 ------------------------
 This method allows retrieve paginated list in a request object of branches in a repository
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#list-branches
+According API docs: https://docs.github.com/en/rest/reference/repos#list-branches
 
 .. code-block:: python
 
@@ -249,7 +249,7 @@ List all repository branches
 ----------------------------
 This method allows listing all branches in a repository, without paginate option using the method self.list_repository_branches.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#list-branches
+According API docs: https://docs.github.com/en/rest/reference/repos#list-branches
 
 .. code-block:: python
 
@@ -260,7 +260,7 @@ Get repository branch details
 -----------------------------
 This method let you get repository branch details.
 
-Accorrding API docs: https://docs.github.com/en/rest/branches/branches?apiVersion=2022-11-28#get-a-branch
+According API docs: https://docs.github.com/en/rest/branches/branches?apiVersion=2022-11-28#get-a-branch
 
 .. code-block:: python
 
@@ -274,7 +274,7 @@ Get repository commit details
 -----------------------------
 This method let you get repository commit details.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#get-a-commit
+According API docs: https://docs.github.com/en/rest/reference/repos#get-a-commit
 
 .. code-block:: python
 
@@ -288,7 +288,7 @@ Comment a pull request or issue
 -------------------------------
 This method let you comment a pull request or issue.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/issues#create-a-review-comment-for-a-pull-request
+According API docs: https://docs.github.com/en/rest/reference/issues#create-a-review-comment-for-a-pull-request
 
 .. code-block:: python
 
@@ -303,7 +303,7 @@ Get user details
 ----------------
 This method let you get user details.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/users#get-a-user
+According API docs: https://docs.github.com/en/rest/reference/users#get-a-user
 
 .. code-block:: python
 
@@ -314,7 +314,7 @@ Create a repository release
 ---------------------------
 This method let you create a repository release.
 
-Accorrding API docs: https://docs.github.com/en/rest/reference/repos#list-repository-teams
+According API docs: https://docs.github.com/en/rest/reference/repos#list-repository-teams
 
 .. code-block:: python
 
@@ -331,7 +331,7 @@ List repository teams
 ---------------------
 This method let you list repository teams. Paginated method.
 
-Accorrding API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
+According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
 
 .. code-block:: python
 
@@ -346,7 +346,7 @@ List all repository teams
 -------------------------
 This method let you list all repository teams. Retrieve all repository teams.
 
-Accorrding API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
+According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
 
 .. code-block:: python
 
@@ -359,7 +359,7 @@ List teams in an organization
 -----------------------------
 This method let you list teams in an organization. Paginated.
 
-Accorrding API docs: https://docs.github.com/es/rest/reference/teams#list-teams
+According API docs: https://docs.github.com/es/rest/reference/teams#list-teams
 
 .. code-block:: python
 
@@ -373,7 +373,7 @@ List all teams in an organization
 ---------------------------------
 This method let you list all teams in an organization. Retrieve all teams.
 
-Accorrding API docs: https://docs.github.com/es/rest/reference/teams#list-teams
+According API docs: https://docs.github.com/es/rest/reference/teams#list-teams
 
 .. code-block:: python
 
@@ -387,7 +387,7 @@ Get team by name
 ----------------
 This method let you get team by name.
 
-Accorrding API docs: https://docs.github.com/es/rest/reference/teams#get-a-team-by-name
+According API docs: https://docs.github.com/es/rest/reference/teams#get-a-team-by-name
 
 .. code-block:: python
 
@@ -400,7 +400,7 @@ List repository tags
 --------------------
 This method let you list repository tags. Paginated.
 
-Accorrding API docs: https://docs.github.com/es/rest/reference/repos#list-repository-tags
+According API docs: https://docs.github.com/es/rest/reference/repos#list-repository-tags
 
 .. code-block:: python
 
@@ -415,7 +415,7 @@ List all repository tags
 ------------------------
 This method let you list all repository tags. Retrieve all repository tags.
 
-Accorrding API docs: https://docs.github.com/es/rest/reference/repos#list-repository-tags
+According API docs: https://docs.github.com/es/rest/reference/repos#list-repository-tags
 
 .. code-block:: python
 
@@ -428,7 +428,7 @@ List repository pull requests
 -----------------------------
 This method let you list repository pull requests. Paginated.
 
-Accorrding API docs: https://docs.github.com/es/rest/reference/pulls#list-pull-requests
+According API docs: https://docs.github.com/es/rest/reference/pulls#list-pull-requests
 
 .. code-block:: python
 
@@ -445,7 +445,7 @@ List all repository pull requests
 ---------------------------------
 This method let you list all repository pull requests. Retrieve all repository pull requests.
 
-Accorrding API docs: https://docs.github.com/es/rest/reference/pulls#list-pull-requests
+According API docs: https://docs.github.com/es/rest/reference/pulls#list-pull-requests
 
 .. code-block:: python
 
@@ -461,7 +461,7 @@ List repository collaborators
 -----------------------------
 This method let you list repository collaborators. Paginated.
 
-Accorrding API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
+According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
 
 .. code-block:: python
 
@@ -478,7 +478,7 @@ List all repository collaborators
 ---------------------------------
 This method let you list all repository collaborators. Retrieve all repository collaborators.
 
-Accorrding API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
+According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
 
 .. code-block:: python
 
@@ -494,7 +494,7 @@ List commit statuses
 --------------------
 This method let you list commit statuses. Paginated.
 
-Accorrding API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+According API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
 
 .. code-block:: python
 
@@ -510,7 +510,7 @@ List all commit statuses
 ------------------------
 This method let you list all commit statuses. Retrieve all commit statuses.
 
-Accorrding API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+According API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
 
 .. code-block:: python
 
@@ -525,7 +525,7 @@ List reviews for a pull request
 -------------------------------
 This method let you list reviews for a pull request. Paginated.
 
-Accorrding API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
 
 .. code-block:: python
 
@@ -541,7 +541,7 @@ List all reviews for a pull request
 -----------------------------------
 This method let you list all reviews for a pull request. Retrieve all reviews for a pull request.
 
-Accorrding API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
 
 .. code-block:: python
 
@@ -556,7 +556,7 @@ Delete repository branch protection rule
 ----------------------------------------
 This method let you delete repository branch protection rule. GraphQL Query.
 
-Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#deletebranchprotectionrule
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#deletebranchprotectionrule
 
 .. code-block:: python
 
@@ -570,7 +570,7 @@ List repository branch protection rules
 ---------------------------------------
 This method let you list repository branch protection rules. GraphQL Query.
 
-Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/objects#branchprotectionrule
+According GraphQL docs: https://docs.github.com/es/graphql/reference/objects#branchprotectionrule
 
 Inspired by this community discussion: https://github.com/orgs/community/discussions/24596
 
@@ -585,7 +585,7 @@ Create repository branch protection rule by template
 ----------------------------------------------------
 This method let you create repository branch protection rule by template. GraphQL Query.
 
-Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#createbranchprotectionrule
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#createbranchprotectionrule
 
 .. code-block:: python
 
@@ -600,7 +600,7 @@ Update required status checks context to branch repository
 ----------------------------------------------------------
 This method let you update required status checks context to branch repository. GraphQL Query.
 
-Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
 
 .. code-block:: python
 
@@ -613,7 +613,7 @@ Change branch regex pattern policy
 ----------------------------------
 This method let you change branch regex pattern policy. GraphQL Query.
 
-Accorrding GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
 
 .. code-block:: python
 
