@@ -761,6 +761,59 @@ class GithubUtilsApi:
             result = self._response_to_json(self.list_reviews_for_pr(owner=owner, repo=repo,pull_number=pull_number,per_page=per_page,page=page))
         return result_all
     
+    def organization_members_list_all(self, owner=None,per_page=30):
+        """
+        This method allows listing all organization members , without paginate option using the method self.organization_members_list.
+        According API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
+        :param owner: string; name of the current organization created at github or the owner
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Members
+        """
+        page = 1
+        result = self._response_to_json(self.organization_members_list(organization_name=owner,per_page=per_page,page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self._response_to_json(self.organization_members_list(organization_name=owner,per_page=per_page,page=page))
+        return result_all
+    
+    def list_repos_for_a_user(self, username=None, type="all",direction="asc", per_page=30, page=1):
+        '''
+        This method allows retreive paginated list repos for a user in a request object
+        According API docs: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+        :param username: string; login name of user
+        :param type: string; Default: all. Can be one of: all, owner, member
+        :param direction: string;Default: asc when using full_name, otherwise desc, Can be one of: asc, desc
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {}
+        query = "?type="+str(type)+"&direction="+str(direction)+"&per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/users/" + username + "/repos" + query
+        return self._request("GET", url, params)
+
+    def list_repos_for_a_user_all(self, username=None, type="all",direction="asc", per_page=30):
+        '''
+        This method allows listing all repos for a user, without paginate option using the method self.list_repos_for_a_user.
+        According API docs: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+        :param username: string; login name of user
+        :param type: string; Default: all. Can be one of: all, owner, member
+        :param direction: string;Default: asc when using full_name, otherwise desc, Can be one of: asc, desc
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: Array of Repositories with permission assoc
+        '''
+        page = 1
+        result = self._response_to_json(self.list_repos_for_a_user(username=username, type=type,direction=direction, per_page=per_page, page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self._response_to_json(self.list_repos_for_a_user(username=username, type=type,direction=direction, per_page=per_page, page=page))
+        return result_all
+
     # GraphQL Endpoints
 
     def delete_repository_branch_protection_rule(self, repository_rule: dict) -> requests.Response:
