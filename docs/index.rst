@@ -331,6 +331,38 @@ According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-
                'organization_name_or_owner', 
                'repository_name')
 
+List all organization memmbers 
+-------------------------
+This method let you list all organizaition members.
+According API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
+
+.. code-block:: python
+
+    # List all orgganization teams
+    repo = gh.organization_members_list_all(
+               'organization_name_or_owner')
+
+List repositories for a user 
+-------------------------
+This method let you paginated list repositories for a user.
+According API docs: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+
+.. code-block:: python
+
+    # List all orgganization teams
+    repo = gh.list_repos_for_a_user(
+               username='github_username',type='all',direction='asc', per_page=30, page=1)
+
+List all repositories for a user 
+-------------------------
+This method let you all list repositories for a user.
+According API docs: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+
+.. code-block:: python
+
+    # List all orgganization teams
+    repo = gh.list_repos_for_a_user_all(
+               username='github_username',type='all',direction='asc', per_page=30)
 
 Contents
 --------
