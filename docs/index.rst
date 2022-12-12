@@ -36,6 +36,7 @@ In case you need to connect to a GitHub Enterprise instance, you can pass the ur
 Get organization members
 ------------------------
 This method let you list GH users in an organization
+
 According API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
 
 .. code-block:: python
@@ -46,6 +47,7 @@ According API docs: https://docs.github.com/en/rest/orgs/members#list-organizati
 Create a repository
 -------------------
 This method let you create a repository in an organization
+
 According API docs: https://docs.github.com/en/rest/reference/repos#create-an-organization-repository
 
 .. code-block:: python
@@ -58,6 +60,7 @@ According API docs: https://docs.github.com/en/rest/reference/repos#create-an-or
 Grant Team access to a repository
 ---------------------------------
 This method let you grant a team access to a repository
+
 According API docs: https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions
 
 .. code-block:: python
@@ -72,6 +75,7 @@ According API docs: https://docs.github.com/en/rest/reference/teams#add-or-updat
 Grant user into the organization
 --------------------------------
 This method let you grant a user into the specified organization
+
 According API docs: https://docs.github.com/en/rest/orgs/members
 
 .. code-block:: python
@@ -83,6 +87,7 @@ According API docs: https://docs.github.com/en/rest/orgs/members
 Create a team
 -------------
 This method let you create a team into the specified organization
+
 According API docs: https://docs.github.com/en/rest/reference/teams#create-a-team
 
 .. code-block:: python
@@ -95,6 +100,7 @@ According API docs: https://docs.github.com/en/rest/reference/teams#create-a-tea
 Remove a user from a team
 -------------------------
 This method let you remove a user from a GitHub organization team
+
 According API docs: https://docs.github.com/en/rest/reference/teams#remove-team-membership-for-a-user
 
 .. code-block:: python
@@ -107,6 +113,7 @@ According API docs: https://docs.github.com/en/rest/reference/teams#remove-team-
 List team users
 ---------------
 This method let you list users in a GitHub organization team
+
 According API docs: https://docs.github.com/en/rest/reference/teams#list-team-members
 
 .. code-block:: python
@@ -118,6 +125,7 @@ According API docs: https://docs.github.com/en/rest/reference/teams#list-team-me
 Create a discussion post on a team's page
 -----------------------------------------
 This method let you create a discussion post on a team's page
+
 According API docs: https://docs.github.com/en/rest/reference/teams#create-a-discussion
 
 .. code-block:: python
@@ -131,6 +139,7 @@ According API docs: https://docs.github.com/en/rest/reference/teams#create-a-dis
 Get a discussion post on a team's page
 --------------------------------------
 This method let you get a discussion post on a team's page or create a new one if it does not exist
+
 According API docs: https://docs.github.com/en/rest/teams/discussions#create-a-discussion
 
 .. code-block:: python
@@ -145,6 +154,7 @@ According API docs: https://docs.github.com/en/rest/teams/discussions#create-a-d
 List all discussions on a team's page
 -------------------------------------
 This method let you list all discussions on a team's page.
+
 According API docs: https://docs.github.com/en/rest/teams/discussions#list-discussions
 
 .. code-block:: python
@@ -155,6 +165,7 @@ According API docs: https://docs.github.com/en/rest/teams/discussions#list-discu
 Create a comment on a Team discussion post
 ------------------------------------------
 This method let you create a comment on a Team discussion post.
+
 According API docs: https://docs.github.com/en/rest/teams/discussion-comments#create-a-discussion-comment
 
 .. code-block:: python
@@ -168,6 +179,7 @@ According API docs: https://docs.github.com/en/rest/teams/discussion-comments#cr
 List repositories in an organization
 ------------------------------------
 This method let you list repositories in an organization. Paginated method with filter options.
+
 According API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
 
 .. code-block:: python
@@ -183,6 +195,7 @@ According API docs: https://docs.github.com/en/rest/reference/repos#list-organiz
 List all repositories in an organization
 ----------------------------------------
 This method let you list all repositories in an organization. Retrieve all repositories.
+
 According API docs: https://docs.github.com/en/rest/reference/repos#list-organization-repositories
 
 .. code-block:: python
@@ -196,6 +209,7 @@ According API docs: https://docs.github.com/en/rest/reference/repos#list-organiz
 Get repository details
 ----------------------
 This method let you get repository details.
+
 According API docs: https://docs.github.com/en/rest/reference/repos#get-a-repository
 
 .. code-block:: python
@@ -206,6 +220,7 @@ According API docs: https://docs.github.com/en/rest/reference/repos#get-a-reposi
 Delete a repository branch
 --------------------------
 This method let you delete a repository branch.
+
 According non-documented API endpoint. Mentioned in https://github.community/t/how-to-delete-a-branch-through-the-api/211792
 
 .. code-block:: python
@@ -218,6 +233,7 @@ According non-documented API endpoint. Mentioned in https://github.community/t/h
 List repository branches
 ------------------------
 This method allows retrieve paginated list in a request object of branches in a repository
+
 According API docs: https://docs.github.com/en/rest/reference/repos#list-branches
 
 .. code-block:: python
@@ -232,6 +248,7 @@ According API docs: https://docs.github.com/en/rest/reference/repos#list-branche
 List all repository branches
 ----------------------------
 This method allows listing all branches in a repository, without paginate option using the method self.list_repository_branches.
+
 According API docs: https://docs.github.com/en/rest/reference/repos#list-branches
 
 .. code-block:: python
@@ -242,6 +259,7 @@ According API docs: https://docs.github.com/en/rest/reference/repos#list-branche
 Get repository branch details
 -----------------------------
 This method let you get repository branch details.
+
 According API docs: https://docs.github.com/en/rest/branches/branches?apiVersion=2022-11-28#get-a-branch
 
 .. code-block:: python
@@ -255,6 +273,7 @@ According API docs: https://docs.github.com/en/rest/branches/branches?apiVersion
 Get repository commit details
 -----------------------------
 This method let you get repository commit details.
+
 According API docs: https://docs.github.com/en/rest/reference/repos#get-a-commit
 
 .. code-block:: python
@@ -268,6 +287,7 @@ According API docs: https://docs.github.com/en/rest/reference/repos#get-a-commit
 Comment a pull request or issue
 -------------------------------
 This method let you comment a pull request or issue.
+
 According API docs: https://docs.github.com/en/rest/reference/issues#create-a-review-comment-for-a-pull-request
 
 .. code-block:: python
@@ -282,6 +302,7 @@ According API docs: https://docs.github.com/en/rest/reference/issues#create-a-re
 Get user details
 ----------------
 This method let you get user details.
+
 According API docs: https://docs.github.com/en/rest/reference/users#get-a-user
 
 .. code-block:: python
@@ -292,6 +313,7 @@ According API docs: https://docs.github.com/en/rest/reference/users#get-a-user
 Create a repository release
 ---------------------------
 This method let you create a repository release.
+
 According API docs: https://docs.github.com/en/rest/reference/repos#list-repository-teams
 
 .. code-block:: python
@@ -307,7 +329,8 @@ According API docs: https://docs.github.com/en/rest/reference/repos#list-reposit
 
 List repository teams
 ---------------------
-This method let you list repository teams.
+This method let you list repository teams. Paginated method.
+
 According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
 
 .. code-block:: python
@@ -321,7 +344,8 @@ According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-
 
 List all repository teams
 -------------------------
-This method let you list all repository teams.
+This method let you list all repository teams. Retrieve all repository teams.
+
 According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-teams
 
 .. code-block:: python
@@ -331,38 +355,275 @@ According API docs: https://docs.github.com/es/rest/repos/repos#list-repository-
                'organization_name_or_owner', 
                'repository_name')
 
-List all organization memmbers 
--------------------------
-This method let you list all organizaition members.
-According API docs: https://docs.github.com/en/rest/orgs/members#list-organization-members
+List teams in an organization
+-----------------------------
+This method let you list teams in an organization. Paginated.
+
+According API docs: https://docs.github.com/es/rest/reference/teams#list-teams
 
 .. code-block:: python
 
-    # List all orgganization teams
-    repo = gh.organization_members_list_all(
-               'organization_name_or_owner')
+    # List teams in an organization
+    repo = gh.list_teams(
+               'organization_name_or_owner', 
+               'per_page', 
+               'page')
 
-List repositories for a user 
--------------------------
-This method let you paginated list repositories for a user.
-According API docs: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+List all teams in an organization
+---------------------------------
+This method let you list all teams in an organization. Retrieve all teams.
 
-.. code-block:: python
-
-    # List all orgganization teams
-    repo = gh.list_repos_for_a_user(
-               username='github_username',type='all',direction='asc', per_page=30, page=1)
-
-List all repositories for a user 
--------------------------
-This method let you all list repositories for a user.
-According API docs: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
+According API docs: https://docs.github.com/es/rest/reference/teams#list-teams
 
 .. code-block:: python
 
-    # List all orgganization teams
-    repo = gh.list_repos_for_a_user_all(
-               username='github_username',type='all',direction='asc', per_page=30)
+    # List all teams in an organization
+    repo = gh.list_teams_all(
+               'organization_name_or_owner'
+               'per_page',
+               )
+
+Get team by name
+----------------
+This method let you get team by name.
+
+According API docs: https://docs.github.com/es/rest/reference/teams#get-a-team-by-name
+
+.. code-block:: python
+
+    # Get team by name
+    repo = gh.team_by_name(
+               'organization_name_or_owner', 
+               'team_name')
+
+List repository tags
+--------------------
+This method let you list repository tags. Paginated.
+
+According API docs: https://docs.github.com/es/rest/reference/repos#list-repository-tags
+
+.. code-block:: python
+
+    # List repository tags
+    repo = gh.list_repository_tags(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'per_page', 
+               'page')
+
+List all repository tags
+------------------------
+This method let you list all repository tags. Retrieve all repository tags.
+
+According API docs: https://docs.github.com/es/rest/reference/repos#list-repository-tags
+
+.. code-block:: python
+
+    # List all repository tags
+    repo = gh.list_repository_tags_all(
+               'organization_name_or_owner', 
+               'repository_name')
+
+List repository pull requests
+-----------------------------
+This method let you list repository pull requests. Paginated.
+
+According API docs: https://docs.github.com/es/rest/reference/pulls#list-pull-requests
+
+.. code-block:: python
+
+    # List repository pull requests
+    repo = gh.list_repository_prs(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'per_page', 
+               'page',
+               state='open, closed, all'
+               )
+
+List all repository pull requests
+---------------------------------
+This method let you list all repository pull requests. Retrieve all repository pull requests.
+
+According API docs: https://docs.github.com/es/rest/reference/pulls#list-pull-requests
+
+.. code-block:: python
+
+    # List all repository pull requests
+    repo = gh.list_repository_prs_all(
+               'organization_name_or_owner', 
+               'repository_name',
+               'per_page',
+               state='open, closed, all'
+               )
+
+List repository collaborators
+-----------------------------
+This method let you list repository collaborators. Paginated.
+
+According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
+
+.. code-block:: python
+
+    # List repository collaborators
+    repo = gh.list_repository_collaborations(
+               'organization_name_or_owner', 
+               'repository_name', 
+               permission='pull, push, admin, maintain, triage',
+               affiliation='outside, direct, all',
+               'per_page', 
+               'page')
+
+List all repository collaborators
+---------------------------------
+This method let you list all repository collaborators. Retrieve all repository collaborators.
+
+According API docs: https://docs.github.com/es/rest/collaborators/collaborators#list-repository-collaborators
+
+.. code-block:: python
+
+    # List all repository collaborators
+    repo = gh.list_repository_collaborations_all(
+               'organization_name_or_owner', 
+               'repository_name', 
+               permission='pull, push, admin, maintain, triage',
+               affiliation='outside, direct, all',
+               'per_page')
+
+List commit statuses
+--------------------
+This method let you list commit statuses. Paginated.
+
+According API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+
+.. code-block:: python
+
+    # List commit statuses
+    repo = gh.list_commit_statuses(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'ref', 
+               'per_page', 
+               'page')
+
+List all commit statuses
+------------------------
+This method let you list all commit statuses. Retrieve all commit statuses.
+
+According API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
+
+.. code-block:: python
+
+    # List all commit statuses
+    repo = gh.list_commit_statuses_all(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'ref', 
+               'per_page')
+
+List reviews for a pull request
+-------------------------------
+This method let you list reviews for a pull request. Paginated.
+
+According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+
+.. code-block:: python
+
+    # List reviews for a pull request
+    repo = gh.list_reviews_for_pr(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'pull_number', 
+               'per_page', 
+               'page')
+
+List all reviews for a pull request
+-----------------------------------
+This method let you list all reviews for a pull request. Retrieve all reviews for a pull request.
+
+According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
+
+.. code-block:: python
+
+    # List all reviews for a pull request
+    repo = gh.list_reviews_for_pr_all(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'pull_number', 
+               'per_page')
+
+
+
+Delete repository branch protection rule
+----------------------------------------
+This method let you delete repository branch protection rule. GraphQL Query.
+
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#deletebranchprotectionrule
+
+.. code-block:: python
+
+    # Delete repository branch protection rule
+    repo = gh.delete_repository_branch_protection_rule(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'branch_name')
+
+List repository branch protection rules
+---------------------------------------
+This method let you list repository branch protection rules. GraphQL Query.
+
+According GraphQL docs: https://docs.github.com/es/graphql/reference/objects#branchprotectionrule
+
+Inspired by this community discussion: https://github.com/orgs/community/discussions/24596
+
+.. code-block:: python
+
+    # List repository branch protection rules
+    repo = gh.list_repository_branch_protection_rules(
+               'organization_name_or_owner', 
+               'repository_name')
+
+Create repository branch protection rule by template
+----------------------------------------------------
+This method let you create repository branch protection rule by template. GraphQL Query.
+
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations#createbranchprotectionrule
+
+.. code-block:: python
+
+    # Create repository branch protection rule by template
+    repo = gh.create_repository_branch_protection_rule_by_template(
+               'organization_name_or_owner', 
+               'repository_name', 
+               'branch_name', 
+               'template_name')
+
+Update required status checks context to branch repository
+----------------------------------------------------------
+This method let you update required status checks context to branch repository. GraphQL Query.
+
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
+
+.. code-block:: python
+
+    # Update required status checks context to branch repository
+    repo = gh.update_required_status_check_context_to_branch_policy(
+               'branch_protection_rule_id',
+               'status_check_contexts')
+
+Change branch regex pattern policy
+----------------------------------
+This method let you change branch regex pattern policy. GraphQL Query.
+
+According GraphQL docs: https://docs.github.com/es/graphql/reference/mutations
+
+.. code-block:: python
+
+    # Change branch regex pattern policy
+    repo = gh.change_branch_regex_pattern_policy(
+               'branch_protection_rule_id',
+               'branch_regex_pattern')
+
 
 Contents
 --------

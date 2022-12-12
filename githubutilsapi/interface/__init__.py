@@ -546,6 +546,7 @@ class GithubUtilsApi:
         :param owner: string; name of the current organization created at GitHub or the owner
         :param per_page: integer; Results per page (max 100). Default: 30
         :return: Array of Teams
+        TODO: Pending refactor with recursive approach to increase legibility and performance
         """
         page = 1
         result = self._response_to_json(self.list_teams(owner=owner, per_page=per_page, page=page))
@@ -591,6 +592,7 @@ class GithubUtilsApi:
         :param repository_name: string; repository slug name
         :param per_page: integer; Results per page (max 100). Default: 30
         :return: Array of Tags
+        TODO: Pending refactor with recursive approach to increase legibility and performance
         """
         page = 1
         result = self._response_to_json(
@@ -628,6 +630,7 @@ class GithubUtilsApi:
         :param per_page: integer; Results per page (max 100). Default: 30
         :param state: string options separated by comma; options: open, closed, or all
         :return: Array of Pull Request
+        TODO: Pending refactor with recursive approach to increase legibility and performance
         """
         page = 1
         result = self._response_to_json(
@@ -672,6 +675,7 @@ class GithubUtilsApi:
         :param affiliation: string; Can be one of: outside, direct, all
         :param per_page: integer; Results per page (max 100). Default: 30
         :return: Array of Teams
+        TODO: Pending refactor with recursive approach to increase legibility and performance
         """
         page = 1
         result = self._response_to_json(
@@ -702,15 +706,16 @@ class GithubUtilsApi:
         url = self.github_url + "/repos/" + owner + "/" + repo + "/statuses/" + sha  + query
         return self._request("GET", url, params)
     
-    def list_commit_statuses_all(self, owner=None, repo=None,sha=None, per_page=30):
+    def list_commit_statuses_all(self, owner=None, repo=None, sha=None, per_page=30):
         '''
         This method allows listing all statuses check in a specific reference , without paginate option using the method self.list_commit_statuses.
         According API docs: https://docs.github.com/es/rest/commits/statuses?apiVersion=2022-11-28#list-commit-statuses-for-a-reference
         :param owner: string; name of the current organization created at github or the owner
         :param repo: string; repository slug name
-        :param ref: string; ref parameter, required
+        :param sha: string; ref parameter, required
         :param per_page: integer; Results per page (max 100). Default: 30
         :return: Array of Statuses
+        TODO: Pending refactor with recursive approach to increase legibility and performance
         '''
         page = 1
         result = self._response_to_json(self.list_commit_statuses(owner=owner, repo=repo,sha=sha,per_page=per_page,page=page))
@@ -721,7 +726,7 @@ class GithubUtilsApi:
             result = self._response_to_json(self.list_commit_statuses(owner=owner, repo=repo,sha=sha,per_page=per_page,page=page))
         return result_all
 
-    def list_reviews_for_pr(self, owner=None, repo=None,pull_number=None, per_page=30, page=1):
+    def list_reviews_for_pr(self, owner=None, repo=None, pull_number=None, per_page=30, page=1):
         '''
         This method allows retreive paginated list in a request object pr reviews
         According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
@@ -737,7 +742,7 @@ class GithubUtilsApi:
         url = self.github_url + "/repos/" + owner + "/" + repo + "/pulls/" + str(pull_number) + "/reviews" + query
         return self._request("GET", url, params)
 
-    def list_reviews_for_pr_all(self, owner=None, repo=None,pull_number=None, per_page=30):
+    def list_reviews_for_pr_all(self, owner=None, repo=None, pull_number=None, per_page=30):
         '''
         This method allows listing all statuses check in a specific reference , without paginate option using the method self.list_commit_statuses.
         According API docs: https://docs.github.com/en/rest/pulls/reviews?apiVersion=2022-11-28#list-reviews-for-a-pull-request
@@ -1037,6 +1042,13 @@ class GithubUtilsApi:
 
     def update_required_status_check_context_to_branch_policy(self, branch_protection_rule_id,
                                                               status_check_contexts: list):
+        """
+        Update required status check contexts to branch policy
+        According to: TODO: tbc by @jpardin1
+        :param branch_protection_rule_id: Branch protection rule id
+        :param status_check_contexts: List of status check contexts
+        :return: Response
+        """
         query = 'mutation{\
                     updateBranchProtectionRule(input: { \
                                 branchProtectionRuleId: "change_branchProtectionRuleId" \
@@ -1062,6 +1074,13 @@ class GithubUtilsApi:
         return self._response_to_json(self._request('POST', self.github_url_graphql, data=myjson, is_graphql=True))
 
     def change_branch_regex_pattern_policies(self, branch_protection_rule_id, new_pattern):
+        """
+        Change branch regex pattern policies
+        According to: TODO: tbc by @jpardin1
+        :param branch_protection_rule_id: Branch protection rule id
+        :param new_pattern: New pattern
+        :return: Response
+        """
         query = 'mutation{\
                     updateBranchProtectionRule(input: { \
                                 branchProtectionRuleId: "change_branchProtectionRuleId" \
