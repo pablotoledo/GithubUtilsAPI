@@ -45,4 +45,5 @@ Let's fork and provide your changes :)
 License
 _______
 This project is licensed under the terms of the MIT license.
+
 For a copy, see <https://opensource.org/licenses/MIT>.
