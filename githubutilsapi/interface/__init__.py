@@ -1098,3 +1098,26 @@ class GithubUtilsApi:
 
         myjson = {'query': query}
         return self._response_to_json(self._request('POST', self.github_url_graphql, data=myjson, is_graphql=True))
+
+    def repository_list_hooks(self, organization_name=None, repository_name=None):
+        """
+        Lists webhooks for a repository. last response may return null if there have not been any deliveries within 30 days.
+        According API docs: https://docs.github.com/en/rest/webhooks/repos?apiVersion=2022-11-28#list-repository-webhooks
+        :param organization_name: string; name of the current organization created at GitHub
+        :param repository_name: string; Repository name
+        :return: request
+        """
+        params = {}
+        url = self.github_url + "/repos/" + organization_name + f"/{repository_name}/" + "hooks"
+        return self._request("GET", url, params)
+
+    def repository_create_hook(self, organization_name: str, repository_name: str, hook_payload: dict):
+        """
+        Repositories can have multiple webhooks installed. Each webhook should have a unique config. Multiple webhooks can share the same config as long as those webhooks do not have any events that overlap.
+        According API docs: https://docs.github.com/en/rest/webhooks/repos?apiVersion=2022-11-28#create-a-repository-webhook
+        :param organization_name: string; name of the current organization created at GitHub
+        :param repository_name: string; Repository name
+        :return: request
+        """
+        url = self.github_url + "/repos/" + organization_name + f"/{repository_name}/" + "hooks"
+        return self._request("POST", url=url, data=hook_payload)
