@@ -1,11 +1,11 @@
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="github-utils-api",                 # This is the name of the package
-    version="0.0.4",                        # The initial release version
+    version="0.55.0",                        # The initial release version
     author="Pablo Toledo",                  # Full name of the author
     description="Small library to cover non provided methods by pygithub",
     long_description=long_description,      # Long description read from the the readme file
