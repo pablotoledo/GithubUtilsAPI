@@ -468,7 +468,7 @@ class GithubUtilsApi:
         return self._request("GET", url, params)
 
     def repository_create_release(self, owner=None, repository_name=None, tag_name=None, release_name=None,
-                                  release_body=None, generate_release_notes=False):
+                                  release_body=None, generate_release_notes=False, is_pre_release=False):
         """
         This method creates a new comment on a team discussion.
         According API docs: https://docs.github.com/en/rest/releases/releases#create-a-release
@@ -478,13 +478,15 @@ class GithubUtilsApi:
         :param release_name: string; The name of the release
         :param release_body: string; Text describing the contents of the tag
         :param generate_release_notes: bool; Whether to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes
+        :param is_pre_release: bool; true to identify the release as a prerelease. false to identify the release as a full release.
         :return: request
         """
         body = {
             'tag_name': tag_name,
             'name': release_name,
             'body': release_body,
-            'generate_release_notes': generate_release_notes
+            'generate_release_notes': generate_release_notes,
+            'prerelease': is_pre_release
         }
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/releases"
         return self._request("POST", url, body)
