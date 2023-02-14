@@ -190,9 +190,18 @@ class GithubUtilsApi:
         :param team_slug_name: string; GitHub Team slug name
         :return: request
         """
+        page = 1
         params = {}
+        params['page'] = page
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/members"
-        return self._request("GET", url, params)
+        result = self._responnse_to_json(self._request("GET", url, params))
+        result_all = []
+        while len(result) > 0:
+            result_all.extend(result)
+            page += 1
+            params['page'] = page
+            result = self._responnse_to_json(self._request("GET", url, params))
+        return result_all
 
     def team_discussion_create(self, organization_name=None, team_slug_name=None, discussion_title=None, private=False):
         """
