@@ -182,17 +182,26 @@ class GithubUtilsApi:
         url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/memberships/" + github_username
         return self._request("DELETE", url, params)
 
-    def team_list_users(self, organization_name=None, team_slug_name=None):
+    def team_list_users(self, organization_name=None, team_slug_name=None, per_page=30) -> list:
         """
         This method allows list all user in a GitHub organization Team
         According API docs: https://docs.github.com/en/rest/teams/members#list-team-members
         :param organization_name: string; name of the current organization created at GitHub
         :param team_slug_name: string; GitHub Team slug name
+        :param per_page: int; users per page
         :return: request
         """
-        params = {}
-        url = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/members"
-        return self._request("GET", url, params)
+        page = 1
+        url_base = self.github_url + "/orgs/" + organization_name + "/teams/" + team_slug_name + "/members"
+        url_query = url_base + "?per_page=" + str(per_page) + "&page=" + str(page)
+        result = self._response_to_json(self._request("GET", url_query, None))
+        result_all = []
+        while len(result) > 0:
+            result_all.extend(result)
+            page += 1
+            url_query = url_base + "?per_page=" + str(per_page) + "&page=" + str(page)
+            result = self._response_to_json(self._request("GET", url_query, None))
+        return result_all
 
     def team_discussion_create(self, organization_name=None, team_slug_name=None, discussion_title=None, private=False):
         """
