@@ -585,6 +585,28 @@ According API docs: https://docs.github.com/en/rest/repos/repos?apiVersion=2022-
     repo = gh.list_repos_for_a_user_all(
                username='github_username',type='all',direction='asc', per_page=30)
 
+List review comments on a Pull Request
+-------------------------
+This method let you paginated list review comments for a pull request.
+According API docs: https://docs.github.com/en/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-on-a-pull-request
+
+.. code-block:: python
+
+    # List paginated review commments for a pr
+    repo = gh.list_review_comments_on_a_pr(
+               owner='organization_name_or_owner',repo='repository_name',pull_number='pull_request_number', direction='asc', per_page=30, page=1)
+
+List all review comments on a Pull Request
+-------------------------
+This method let you all list review comments for a pull request.
+According API docs: https://docs.github.com/en/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-on-a-pull-request
+
+.. code-block:: python
+
+    # List all review comments for a pr
+    repo = gh.list_review_comments_on_a_pr_all(
+               owner='organization_name_or_owner',repo='repository_name',pull_number='pull_request_number', direction='asc', per_page=30)
+                   
 Delete repository branch protection rule
 ----------------------------------------
 This method let you delete repository branch protection rule. GraphQL Query.
