@@ -825,6 +825,43 @@ class GithubUtilsApi:
             result = self._response_to_json(self.list_repos_for_a_user(username=username, type=type,direction=direction, per_page=per_page, page=page))
         return result_all
 
+    def list_review_comments_on_a_pr(self,owner=None,repo=None,pull_number=None,direction="asc",per_page=30,page=1):
+        '''
+        This method allows retreive paginated list review comments for a PR in a request object
+        According API docs: https://docs.github.com/en/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-on-a-pull-request
+        :param owner: string; name of the current organization created at github or the owner
+        :param repo: string; repository slug name
+        :param pull_number: integer, pull request number
+        :param direction: string;Default: asc when using full_name, otherwise desc, Can be one of: asc, desc
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :param page: integer; Page number of the results to fetch. Default: 1
+        :return: request
+        '''
+        params = {} 
+        query = "?per_page="+str(per_page)+"&page="+str(page)
+        url = self.github_url + "/repos/" + str(owner) + "/" + str(repo) + "/issues/" + str(pull_number) + "/comments" + query
+        return self._request("GET", url, params)
+
+    def list_review_comments_on_a_pr_all(self, owner=None, repo=None, pull_number=None,direction="asc", per_page=30):
+        '''
+        This method allows listing all review comments for a PR, without paginate option using the method self.list_review_comments_on_a_pr.
+        According API docs: https://docs.github.com/en/rest/pulls/comments?apiVersion=2022-11-28#list-review-comments-on-a-pull-request
+        :param owner: string; name of the current organization created at github or the owner
+        :param repo: string; repository slug name
+        :param pull_number: integer, pull request number
+        :param direction: string;Default: asc when using full_name, otherwise desc, Can be one of: asc, desc
+        :param per_page: integer; Results per page (max 100). Default: 30
+        :return: Array of Review Comments for a PR
+        '''
+        page = 1
+        result = self._response_to_json(self.list_review_comments_on_a_pr(owner=owner, repo=repo, pull_number=pull_number, direction=direction, per_page=1, page=page))
+        result_all = []
+        while (len(result)>0):
+            page +=1
+            result_all.extend(result)
+            result = self._response_to_json(self.list_review_comments_on_a_pr(owner=owner, repo=repo, pull_number=pull_number, direction=direction, per_page=per_page, page=page))
+        return result
+    
     # GraphQL Endpoints
 
     def delete_repository_branch_protection_rule(self, repository_rule: dict) -> requests.Response:
