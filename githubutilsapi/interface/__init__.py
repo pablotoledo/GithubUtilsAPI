@@ -862,6 +862,19 @@ class GithubUtilsApi:
             result = self._response_to_json(self.list_review_comments_on_a_pr(owner=owner, repo=repo, pull_number=pull_number, direction=direction, per_page=per_page, page=page))
         return result_all
     
+    def get_pull_request(self,owner=None,repo=None,pull_number=None):
+        '''
+        This method allows retreive all details of a specific Pull Request
+        According API docs: https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
+        :param owner: string; name of the current organization created at github or the owner
+        :param repo: string; repository slug name
+        :param pull_number: integer, pull request number
+        :return: request
+        '''
+        params = {} 
+        url = self.github_url + "/repos/" + str(owner) + "/" + str(repo) + "/pulls/" + str(pull_number)
+        return self._response_to_json(self._request("GET", url, params))
+    
     # GraphQL Endpoints
 
     def delete_repository_branch_protection_rule(self, repository_rule: dict) -> requests.Response:

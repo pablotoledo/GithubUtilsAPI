@@ -606,7 +606,18 @@ According API docs: https://docs.github.com/en/rest/pulls/comments?apiVersion=20
     # List all review comments for a pr
     repo = gh.list_review_comments_on_a_pr_all(
                owner='organization_name_or_owner',repo='repository_name',pull_number='pull_request_number', direction='asc', per_page=30)
-                   
+
+Get Pull Request
+-------------------------
+This method allows retreive all details of a specific Pull Request
+According API docs: https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#get-a-pull-request
+
+.. code-block:: python
+
+    # Geta details of a pr
+    repo = gh.get_pull_request(
+               owner='organization_name_or_owner',repo='repository_name',pull_number='pull_request_number')
+
 Delete repository branch protection rule
 ----------------------------------------
 This method let you delete repository branch protection rule. GraphQL Query.
