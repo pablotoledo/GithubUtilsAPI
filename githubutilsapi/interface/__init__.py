@@ -860,7 +860,7 @@ class GithubUtilsApi:
             page +=1
             result_all.extend(result)
             result = self._response_to_json(self.list_review_comments_on_a_pr(owner=owner, repo=repo, pull_number=pull_number, direction=direction, per_page=per_page, page=page))
-        return result
+        return result_all
     
     # GraphQL Endpoints
 
