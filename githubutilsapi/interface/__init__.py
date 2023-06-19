@@ -670,8 +670,11 @@ class GithubUtilsApi:
         :return: request
         """
         params = {}
-        query = "?per_page=" + str(per_page) + "&page=" + str(page) + "&permission=" + str(
-            permission) + "&affiliation=" + str(affiliation)
+        query = "?per_page=" + str(per_page) + "&page=" + str(page)
+        if permission:
+            query = f"{query}&permission={str(permission)}"
+        if affiliation:
+            query = f"{query}&affiliation={str(affiliation)}"
         url = self.github_url + "/repos/" + owner + "/" + repository_name + "/collaborators" + query
         return self._request("GET", url, params)
 
