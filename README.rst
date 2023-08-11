@@ -30,7 +30,7 @@ Import this python package and code.
 
 .. code-block:: python
 
-   from github_utils_api import GitHub
+   from githubutilsapi import GithubUtilsApi
 
 How to contribute?
 __________________
