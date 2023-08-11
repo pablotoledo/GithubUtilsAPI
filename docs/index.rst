@@ -17,7 +17,7 @@ Import the package and create a conection.
 
 .. code-block:: python
 
-   from github_utils_api import GitHub
+   from githubutilsapi import GithubUtilsApi
 
    gh = GithubUtilsApi(user='user', token='token')
 
@@ -25,7 +25,7 @@ In case you need to connect to a GitHub Enterprise instance, you can pass the ur
 
 .. code-block:: python
    
-   from github_utils_api import GitHub
+   from githubutilsapi import GithubUtilsApi
 
    gh = GithubUtilsApi(user='user', 
          token='token', 
