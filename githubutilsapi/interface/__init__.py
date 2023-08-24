@@ -1185,3 +1185,22 @@ class GithubUtilsApi:
         """
         url = self.github_url + "/repos/" + organization_name + f"/{repository_name}/" + "hooks"
         return self._request("POST", url=url, data=hook_payload)
+
+    def repository_create_branch(self, organization_name: str, repository_name: str, branch_name: str, commit_id: str):
+        """
+        Create a branch in a repository
+        According API docs: https://docs.github.com/en/free-pro-team@latest/rest/git/refs?apiVersion=2022-11-28#create-a-reference
+        :param organization_name: string; name of the current organization created at GitHub
+        :param repository_name: string; Repository name
+        :param branch_name: string; Branch name
+        :param commit_id: string; Commit id
+        :return: request
+        """
+        if not branch_name.startswith("refs/heads/"):
+            branch_name = "refs/heads/" + branch_name
+        url = self.github_url + "/repos/" + organization_name + f"/{repository_name}/" + "git/refs"
+        data = {
+            "ref": branch_name,
+            "sha": commit_id
+        }
+        return self._request("POST", url=url, data=data)
