@@ -62,7 +62,6 @@ jobs:
       shell: bash
     - name: Generating Artifacts
       run: |
-        cp README.rst README.md
         python setup.py sdist bdist_wheel
     - name: pypi-publish
       uses: pypa/gh-action-pypi-publish@v1.5.0
