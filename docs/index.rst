@@ -119,8 +119,8 @@ According API docs: https://docs.github.com/en/rest/reference/teams#list-team-me
 .. code-block:: python
 
     # List team members
-    repo = gh.team_list_users('organization_name', 
-               'team_name')
+    repo = gh.team_list_users(organization_name='organization_name', 
+               team_slug_name='team_name', role="all", per_page=100)
 
 Create a discussion post on a team's page
 -----------------------------------------

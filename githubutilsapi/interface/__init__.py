@@ -256,7 +256,7 @@ class GithubUtilsApi:
         return self._request("DELETE", url, params)
 
     def team_list_users(
-        self, organization_name=None, team_slug_name=None, per_page=30
+        self, organization_name=None, team_slug_name=None, role = "all", per_page=30,
     ) -> list:
         """
         This method allows list all user in a GitHub organization Team
@@ -264,6 +264,7 @@ class GithubUtilsApi:
         :param organization_name: string; name of the current organization created at GitHub
         :param team_slug_name: string; GitHub Team slug name
         :param per_page: int; users per page
+        :param role: string, Default -> all, options: member, maintainer, all
         :return: request
         """
         page = 1
@@ -275,13 +276,14 @@ class GithubUtilsApi:
             + team_slug_name
             + "/members"
         )
-        url_query = url_base + "?per_page=" + str(per_page) + "&page=" + str(page)
+        url_query = url_base + "?per_page=" + str(per_page) + "&page=" + str(page) + "&role=" + str(role)
+    
         result = self._response_to_json(self._request("GET", url_query, None))
         result_all = []
         while len(result) > 0:
             result_all.extend(result)
             page += 1
-            url_query = url_base + "?per_page=" + str(per_page) + "&page=" + str(page)
+            url_query = url_base + "?per_page=" + str(per_page) + "&page=" + str(page) + "&role=" + str(role)
             result = self._response_to_json(self._request("GET", url_query, None))
         return result_all
 
